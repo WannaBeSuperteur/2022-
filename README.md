@@ -1,2 +1,2 @@
 # 2022-
-Kotlin for Android App Development
+Practice of Kotlin for Android App Development
