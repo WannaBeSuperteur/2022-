@@ -10,3 +10,7 @@ Kotlin Playground: https://play.kotlinlang.org/
  * ```함수``` (```001_function.md```) (2022.01.01)
  * ```변수의 null``` (```002_null.md```) (2022.01.01)
  * ```Any와 변수의 자료형 확인``` (```003_AnyAndTypecheck.md```) (2022.01.01)
+ * ```when 키워드``` (```004_when.md```) (2022.01.01)
+ * ```ranges``` (```005_rangesBasics.md```) (2022.01.01)
+ * ```ranges의 응용``` (```006_rangesApplication.md```) (2022.01.01)
+ * ```Kotlin의 자료형``` (```007_dataTypes.md```) (2022.01.01)
