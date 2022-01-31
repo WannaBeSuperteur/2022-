@@ -3,7 +3,7 @@
  * Kotlin에서 제공하는 ```with``` 함수는 다음과 같이 <b>null이 아닌 객체를 다룰</b> 때 사용됨.
  * ```with (instanceName) { ... }``` 구문을 통해 ```instanceName.``` 부분을 생략할 수 있음.
  * ```apply``` 함수와 달리 반환하는 값이 없으며, 인스턴스의 속성 대신 클래스에 정의된 함수 사용 가능.
- * 아래 2가지 코드는 서로 같은 의미임.
+   * 아래 2가지 코드는 서로 같은 의미임.
    ```kotlin
    val instanceName = className()
    instanceName.function0(arg0, arg1, ...)
@@ -20,7 +20,7 @@
    ```
  * 클래스에 정의된 함수뿐만 아니라 ```print```, ```println``` 등의 함수도 사용 가능
    * 그 함수의 인수가 해당 인스턴스와 관련있을 때 해당 인스턴스 이름(```instanceName```)을 생략 가능.
- * 아래 2가지 코드는 서로 같은 의미임.
+   * 아래 2가지 코드는 서로 같은 의미임.
    ```kotlin
    val instanceName = className()
    funcName0(instanceName.property0, instanceName.property1, ...)
