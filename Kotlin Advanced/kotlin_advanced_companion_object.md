@@ -46,7 +46,7 @@ interface ClassInterface {
 ### Example 1
 ```kotlin
 class Developer private constructor (name: String, language: String, months: Int, hoursPerWeek: Int) {
-  	companion object developerObject : ClassInterface {
+    companion object developerObject : ClassInterface {
         const val companyName: String = "ExampleSoft"
     	const val commitsPerHour: Double = 0.75
         
@@ -84,13 +84,13 @@ class Developer private constructor (name: String, language: String, months: Int
                 "yearly" -> return (12.0 * 4.35 * hoursPerWeek * commitsPerHour).toInt()
                 else -> return (12.0 * 4.35 * hoursPerWeek * commitsPerHour).toInt()
             }
-		}
 	}
+    }
 }
 
 interface ClassInterface {
     fun getInfo()
-	fun getCommitCount(option: String) : Int
+    fun getCommitCount(option: String) : Int
 }
 
 fun main() {
