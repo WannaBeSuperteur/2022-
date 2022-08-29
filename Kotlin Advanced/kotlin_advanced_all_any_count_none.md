@@ -1,4 +1,4 @@
-## all, any, count of Kotlin
+## all, any, count, none of Kotlin
 ```kotlin
 val test = { arg: DataType ->
     condition
@@ -6,6 +6,7 @@ val test = { arg: DataType ->
 list.all(test) // list의 모든 값이 test의 조건을 만족시키면 true
 list.any(test) // list의 값 중 하나라도 test의 조건을 만족시키면 true
 list.count(test) // list의 값 중 test의 조건을 만족시키는 것의 개수 찾기
+list.none(test) // list의 모든 값이 test의 조건을 만족시키지 않으면 true
 ```
 
 여기서 각각은 다음과 같다.
@@ -31,11 +32,15 @@ list.count(test)
 ```
 위 함수는 ```list```의 값 중 ```test```의 조건을 만족시키는 것의 개수를 구한다.
 
+### none
+```kotlin
+list.none(test)
+```
+위 함수는 ```list```의 모든 값이 ```test```의 조건을 만족시키지 **않으면** true, 그렇지 않으면 false를 반환한다.
+
 ## Example
 ### Example 1
 ```kotlin
-import kotlin.math.pow
-
 data class Developer (
     val name: String,
     val language: String,
@@ -57,6 +62,7 @@ fun main() {
     println("is ALL hard worker? : " + developers.all(hardWorker))
     println("is ANY hard worker? : " + developers.any(hardWorker))
     println("COUNT of hard worker : " + developers.count(hardWorker))
+    println("is NONE hard worker? : " + developers.none(hardWorker))
     println("hard workers : " + developers.filter(hardWorker)) // 참고 사항
 }
 ```
@@ -67,6 +73,7 @@ fun main() {
 is ALL hard worker? : false
 is ANY hard worker? : true
 COUNT of hard worker : 2
+is NONE hard worker? : false
 hard workers : [Developer(name=muk, language=Python3, months=36, hoursPerWeek=42), Developer(name=ho, language=C++, months=24, hoursPerWeek=48)]
 ```
 
