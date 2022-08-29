@@ -73,6 +73,37 @@ fun main() {
 
 ### Example 2
 ```kotlin
+fun aggregate(aggFunc: (List<Int>) -> Double, listNum: List<Int>) : Double {
+    return aggFunc(listNum)
+}
+
+fun main() {
+    val average : (List<Int>) -> Double = {
+        it.sum().toDouble() / it.size.toDouble()
+    }
+    
+    val maximum : (List<Int>) -> Double = {
+        it.max().toDouble()
+    }
+    
+    val minimum : (List<Int>) -> Double = {
+        it.min().toDouble()
+    }
+    
+    val listNum = listOf(1, 5, 10, 15, 50, 100)
+    
+    val avg = aggregate(average, listNum) // 평균
+    val maxValue = aggregate(maximum, listNum) // 최대
+    val minValue = aggregate(minimum, listNum) // 최소
+    
+    println("average : ${avg}")
+    println("maximum : ${maxValue}")
+    println("minimum : ${minValue}")
+}
+```
+
+### Example 3
+```kotlin
 fun main() {
     val baseOperations : String.(Int, Int) -> Int = { a, b ->
         when (this) {
@@ -109,6 +140,13 @@ harmonicMean result : 9.0
 ```
 
 ### Output 2
+```kotlin
+average : 30.166666666666668
+maximum : 100.0
+minimum : 1.0
+```
+
+### Output 3
 ```kotlin
 19
 5
