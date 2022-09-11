@@ -42,3 +42,64 @@ fun func3() = runBlocking { // 3으로 나눈 나머지가 2인 작업을 순서
 }
 ```
 
+## 예제 코드 (수정 필요)
+```kotlin
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
+
+// 작업의 순서를 저장한 배열
+val taskOrder = listOf(0, 1, 3, 6, 7, 15, 16, 18, 20, 25, 26, 30, 34, 36, 38, 41, 42, 49, 50)
+val channel = Channel<Int>() // 데이터 송수신용 채널
+
+fun main() {
+    execute()
+}
+
+fun execute() = runBlocking {
+    launch {
+        func1()
+    }
+    launch {
+        func2()
+    }
+    launch {
+        func3()
+    }
+    
+    channel.send(0)
+}
+
+fun commonFunc(remainder: Int) = runBlocking {
+    while (true) {
+        val i = channel.receive() // 채널로부터 task 데이터를 수신
+        
+        if (taskOrder[i] % 3 == remainder) { // 해당 task를 수행하는 함수인 경우
+            when (remainder) {
+                0 -> println("func1 : I completed task ${i}. It was hard work. TT")
+                1 -> println("func2 : I completed task ${i} ^o^ I feel happy!!")
+                2 -> println("func3 : I completed task ${i}. I feel so good ^U^")
+            }
+        	
+            if (i < taskOrder.size - 1) {
+                channel.send(i + 1)
+            } else {
+                break
+            }
+        } else { // 해당 task를 수행하는 함수가 아닌 경우
+            channel.send(i)
+        }
+    }
+}
+
+fun func1() { // 3으로 나눈 나머지가 0인 작업을 순서대로 실행
+    commonFunc(0)
+}
+
+fun func2() { // 3으로 나눈 나머지가 1인 작업을 순서대로 실행
+    commonFunc(1)
+}
+
+fun func3() { // 3으로 나눈 나머지가 2인 작업을 순서대로 실행
+    commonFunc(2)
+}
+```
