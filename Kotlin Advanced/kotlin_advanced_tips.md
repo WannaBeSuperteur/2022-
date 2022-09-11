@@ -169,3 +169,61 @@ fun main() {
 
 7 x 2 x 3 x 1 = [[[[1], [2], [7]], [[2], [5], [8]]], [[[16], [15], [30]], [[14], [12], [25]]], [[[6], [8], [17]], [[8], [10], [20]]], [[[100], [102], [214]], [[97], [118], [297]]], [[[5], [6], [10]], [[4], [7], [12]]], [[[1], [1], [4]], [[1], [2], [6]]], [[[7], [7], [15]], [[8], [6], [13]]]]
 ```
+
+## 4. String의 각 글자를 다른 글자로 변환하기
+### 예시 코드 1
+```kotlin
+fun main() {
+    val mbti = "ISTJ INTJ INTP ENFP ENTP ESFP ESTJ ESTP"
+    
+    // 반대의 MBTI 글자를 mapping
+    val mapping = mapOf('I' to "E", 'S' to "N", 'T' to "F", 'J' to "P", 'E' to "I", 'N' to "S", 'F' to "T", 'P' to "J")
+    
+    // 해당 key가 있으면 mapping 시키고, 없으면 그대로 (map.containsKey()를 이용하여 key가 있는지 확인)
+    val reversed_mbti = mbti.map { it ->
+        when (mapping.containsKey(it)) {
+            true -> mapping.get(it)
+            false -> it
+        }
+    }
+    
+    println(reversed_mbti)
+    
+    // list.joinToString()을 이용하여 배열을 string으로 합치기
+    val reversed_mbti_str = reversed_mbti.joinToString(separator="")
+    
+    println(reversed_mbti_str)
+}
+```
+
+### 예시 출력 1
+```kotlin
+[E, N, F, P,  , E, S, F, P,  , E, S, F, J,  , I, S, T, J,  , I, S, F, J,  , I, N, T, J,  , I, N, F, P,  , I, N, F, J]
+ENFP ESFP ESFJ ISTJ ISFJ INTJ INFP INFJ
+```
+
+### 예시 코드 2
+```kotlin
+fun main() {
+    val number = 2147483647
+    val mapping = "zottffssen" // 0 -> z(ero), 1 -> o(ne), ..., 9 -> n(ine)
+
+    // 각 숫자에 대해 해당 key가 반드시 있으므로 mapping 시킴
+    val mapped_number = number.toString().map { it ->
+        mapping.get(it.code - 48)
+    }
+    
+    println(mapped_number)
+    
+    // list.joinToString()을 이용하여 배열을 string으로 합치기
+    val mapped_number_str = mapped_number.joinToString(separator="")
+    
+    println(mapped_number_str)
+}
+```
+
+### 예시 출력 2
+```kotlin
+[t, o, f, s, f, e, t, s, f, s]
+tofsfetsfs
+```
