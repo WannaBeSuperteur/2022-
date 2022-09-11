@@ -31,12 +31,13 @@ data class Player (
     val ELO: Int, // 플레이어의 vs 모드 ELO 레이팅
     val challenge_mode_info: List<ChallengeGame>, // 도전 모드 정보
     val vs_mode_info: List<VsGame>, // vs 모드 정보
-    val vs_gem_mode_info: List<VsGemsGame> // 보석과의 대결 모드 정보
+    val vs_gem_mode_info: List<VsGemsGame>, // 보석과의 대결 모드 정보
+    val currentTime: Int // 현재시각의 유닉스 타임스탬프
 )
 
 // 도전 모드의 각 게임 정보 (index는 해당 게임의 레벨을 나타냄)
 data class ChallengeGame (
-	val time_limit: Int, // 제한시간
+    val time_limit: Int, // 제한시간
     val clear_time: Int, // 클리어하는 데 걸린 시간
     val goal: Int, // 제거해야 하는 블럭의 개수
     val blocks: Int, // 제거한 블럭의 개수
@@ -58,3 +59,7 @@ data class VsGemsGame (
     val is_win: Boolean // 승리 여부
 )
 ```
+
+## 예제 코드
+
+## 예제 출력
