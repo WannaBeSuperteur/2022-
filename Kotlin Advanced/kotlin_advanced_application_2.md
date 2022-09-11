@@ -57,6 +57,7 @@ data class Message (
 // 고객이 게시판에 등록한 게시물
 data class Posting (
     val post_ID: Int, // 게시물 ID
+    val board_name: String, // 게시판 이름 ("review": 상품 후기, "free": 자유게시판, "exchange": 거래게시판)
     val time: String // 게시물 등록 일시 (예를 들어 2022년 8월 31일 오후 4시 56분 7초이면 "20220831165607")
 )
 ```
