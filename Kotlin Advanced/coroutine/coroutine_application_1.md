@@ -55,3 +55,93 @@ fun handleLoadingRoutineStat(time: Int) {
     // 와 같이 출력할 것.
 }
 ```
+
+## 예제 코드
+```kotlin
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
+import java.util.Random
+
+// var routineData = listOf<Int>() // 날짜별 달성한 습관의 개수를 날짜 순서대로 저장
+val channel = Channel<List<Int>>() // 데이터 송수신용 채널
+
+fun main() {
+    afterOpenScreen()
+}
+
+fun afterOpenScreen() = runBlocking {
+    val random = Random()
+    val t0 = 200 + random.nextInt(300) // 서버 응답 시간
+    val t1 = 250 + random.nextInt(200) // 화면 로딩 시간
+    
+    launch {
+        delay(t0.toLong())
+        handleServerAnswer(t0) // 서버 응답 처리 함수
+    }
+    launch {
+        delay(t1.toLong())
+        handleLoadingRoutineStat(t1) // 습관 통계 로딩 함수
+    }
+}
+
+fun handleServerAnswer(time: Int) = runBlocking {
+    println("handling server answer in ${time} msecs ...")
+    
+    // routineData를 갱신 (또는 초기화)
+    val routineData = listOf(2, 5, 4, 4, 5, 2, 4, 3, 1, 4, 4, 5, 2, 5)
+    
+    // 채널로 데이터 전송
+    launch {
+        channel.send(routineData)
+    }
+}
+
+fun handleLoadingRoutineStat(time: Int) = runBlocking {
+    println("handling loading routine statistics in ${time} msecs ...")
+    
+    launch {
+        val start = System.currentTimeMillis()
+        val updatedRoutineData = channel.receive() as List<Int> // 채널의 데이터 수신
+        val end = System.currentTimeMillis()
+        
+        println("time used for channel receiving : ${end - start} msecs")
+        
+        with (updatedRoutineData) {
+            println("\n평균 ${sum().toDouble() / size.toDouble()}, 최소 ${min()}, 최대 ${max()}")
+            println("습관    일수")
+            for (i in min() .. max()) {
+                println("${i}       ${count {it == i}}")
+            }
+        }
+    }
+}
+```
+
+## 예제 출력
+```kotlin
+handling server answer in 388 msecs ...
+handling loading routine statistics in 428 msecs ...
+time used for channel receiving : 1 msecs
+
+평균 3.5714285714285716, 최소 1, 최대 5
+습관    일수
+1       1
+2       3
+3       1
+4       5
+5       4
+```
+
+```kotlin
+handling loading routine statistics in 384 msecs ...
+handling server answer in 425 msecs ...
+time used for channel receiving : 46 msecs
+
+평균 3.5714285714285716, 최소 1, 최대 5
+습관    일수
+1       1
+2       3
+3       1
+4       5
+5       4
+```
