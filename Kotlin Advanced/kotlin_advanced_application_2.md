@@ -1,7 +1,7 @@
 ## 요구 사항 분석
 워너비슈퍼추어소프트에서 개발한 쇼핑 앱 "워너비쇼핑"에서는 2022년 추석을 맞이하여 고객들에게 등급에 따라 ```x```만원 상당의 사은품을 증정하려고 한다. 이때, 다음과 같은 제약 조건을 적용한다.
 * 고객의 등급은 ```S```, ```A```, ```B```, ```C```로 나뉜다.
-* 고객의 지난달 쇼핑 금액은 ```2022년 8월 1일```부터 ```2022년 8월 31일```까지의 총 쇼핑 금액의 합이다.
+* 고객의 지난달 쇼핑 금액은 ```2022년 8월 1일```부터 ```2022년 8월 31일```까지의 총 쇼핑 금액의 합으로, 단위는 만원이다.
 * 각 등급별로 ```x```의 값은 다음과 같이 계산하며, ```x```의 값은 소수점 아래 둘째 자리까지 반올림한다.
   * ```평균 대비 충성도 (L)``` : 해당 고객의 지난달 쇼핑 금액을 이 고객이 속한 등급 전체의 지난달 쇼핑 금액의 평균으로 나눈 값
   * ```S```등급 : ```20 + (지난달 쇼핑 금액) * ( 0.06 + (L이 1.5 이상이면 0.05 * L, L이 1 이상 1.5 미만이면 0.03 * L, L이 1 미만이면 0.03))```
@@ -222,7 +222,7 @@ fun getPrice(customer: Customer, customerList: List<Customer>): Int {
     } else if (warnings.size >= 3) {
         x = x * 0.7
     }
-    println("11. " + x)
+    println("11. " + x.toString() + "\n")
     
     // 반올림 처리
     x = (x * 100.0).roundToInt().toDouble() * 100.0
@@ -242,19 +242,25 @@ fun main() {
     )
     
     val exampleShoppingList2 = listOf<ShoppingItem>(
-        ShoppingItem(product_ID = 19035, price = 400000, time = "20220719135000")
+        ShoppingItem(product_ID = 19035, price = 400000, time = "20220719135000"),
+        ShoppingItem(product_ID = 19125, price = 200000, time = "20220907115000")
     )
     
     val exampleShoppingList3 = listOf<ShoppingItem>(
-        ShoppingItem(product_ID = 19036, price = 300000, time = "20220720135000")
+        ShoppingItem(product_ID = 19036, price = 300000, time = "20220720135000"),
+        ShoppingItem(product_ID = 19126, price = 200000, time = "20220801001357")
     )
     
     val exampleShoppingList4 = listOf<ShoppingItem>(
-        ShoppingItem(product_ID = 19037, price = 200000, time = "20220721135000")
+        ShoppingItem(product_ID = 19037, price = 200000, time = "20220721135000"),
+        ShoppingItem(product_ID = 19130, price = 100000, time = "20220803001357")
     )
     
     val exampleShoppingList5 = listOf<ShoppingItem>(
-        ShoppingItem(product_ID = 19038, price = 400000, time = "20220819135000")
+        ShoppingItem(product_ID = 19038, price = 400000, time = "20220819135000"),
+        ShoppingItem(product_ID = 17502, price = 420000, time = "20220901144030"),
+        ShoppingItem(product_ID = 17513, price = 310000, time = "20220902144032"),
+        ShoppingItem(product_ID = 17514, price = 270000, time = "20220903144034")
     )
     
     // 임시 메시지 데이터
@@ -287,27 +293,31 @@ fun main() {
     
     // 임시 고객 데이터
     val exampleCustomer1 = Customer(100, "hong", "S", exampleShoppingList1, exampleMessages, examplePosts, false)
-	val exampleCustomer2 = Customer(101, "yoon", "S", exampleShoppingList2, listOf<Message>(), listOf<Posting>(), false)
-	val exampleCustomer3 = Customer(102, "muk", "A", exampleShoppingList3, listOf<Message>(), listOf<Posting>(), false)
-	val exampleCustomer4 = Customer(103, "so", "A", exampleShoppingList4, listOf<Message>(), listOf<Posting>(), false)
-	val exampleCustomer5 = Customer(104, "kwan", "S", exampleShoppingList5, listOf<Message>(), listOf<Posting>(), false)
+    val exampleCustomer2 = Customer(101, "yoon", "S", exampleShoppingList2, listOf<Message>(), listOf<Posting>(), false)
+    val exampleCustomer3 = Customer(102, "muk", "A", exampleShoppingList3, listOf<Message>(), listOf<Posting>(), false)
+    val exampleCustomer4 = Customer(103, "so", "A", exampleShoppingList4, listOf<Message>(), listOf<Posting>(), false)
+    val exampleCustomer5 = Customer(104, "kwan", "S", exampleShoppingList5, listOf<Message>(), listOf<Posting>(), false)
 	
     val customerList = listOf<Customer> (
     	exampleCustomer1, exampleCustomer2, exampleCustomer3, exampleCustomer4, exampleCustomer5
     )
     
     // 사은품 가격 계산
-    val price = getPrice(exampleCustomer1, customerList)
+    val prices = customerList.map { it ->
+        getPrice(it, customerList)
+    }
     
     // 사은품 가격 출력
     println("\nID      won")
-    println(exampleCustomer1.ID.toString() + "     " + price.toString())
+    for (i in 0 until customerList.size) {
+        println(customerList[i].ID.toString() + "     " + prices[i].toString())
+    }
 }
 ```
 
 ## 예제 출력
 ```
-1. [Customer(ID=100, name=hong, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=200000, time=20220719135000), ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508), ShoppingItem(product_ID=19075, price=80000, time=20220908003720), ShoppingItem(product_ID=18129, price=160000, time=20220908182204)], messages=[Message(msg_ID=1370017, msg_type=0, title=앱 사용법 안내, content=앱 사용법 안내입니다., time=20220716093100), Message(msg_ID=1370025, msg_type=1, title=앱 가입 이벤트 당첨, content=앱 가입 이벤트 당첨을 축하드립니다., time=20220720100004), Message(msg_ID=1370094, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '여기 깨끗한 유저 천국이네요'가 추천 5회 받았습니다., time=20220803220721), Message(msg_ID=1370106, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '저도 확진됐네요. 모두 조심하세요'가 추천 5회 받았습니다., time=20220805143010), Message(msg_ID=1370107, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 1회입니다. (사유: 방문 거래 약속 미이행), time=20220808163000), Message(msg_ID=1370109, msg_type=0, title=게시물 삭제 안내, content=작성하신 게시물 '아니 코로나 때문에 거래 약속 못 지킨 걸로 경고네요?'가 운영원칙 위반으로 삭제되었습니다., time=20220808171145), Message(msg_ID=1370110, msg_type=4, title=게시판 비매너 경고, content=게시판 비매너 경고 누적 1회입니다. (사유: 유저 간 분쟁 유발), time=20220808171205), Message(msg_ID=1370114, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 2회입니다. (사유: 거래 상대방과의 분쟁 유발), time=20220808180417), Message(msg_ID=1370115, msg_type=0, title=앱 사용 정지 안내, content=단시간 내 다수 경고로 인해 고객님의 앱 사용이 2022-09-07 오후 6:04:27 까지 정지됩니다, time=20220808180427), Message(msg_ID=1370185, msg_type=3, title=추석 이벤트 안내, content=2022년 한가위 이벤트 안내입니다., time=20220908134700)], posts=[Posting(post_ID=703918, board_name=exchange, time=20220802114736), Posting(post_ID=704001, board_name=review, time=20220803160511), Posting(post_ID=704007, board_name=free, time=20220803173920), Posting(post_ID=704924, board_name=free, time=20220805102840), Posting(post_ID=705650, board_name=free, time=20220808082239), Posting(post_ID=715186, board_name=free, time=20220907181128), Posting(post_ID=715188, board_name=review, time=20220907221000), Posting(post_ID=715205, board_name=review, time=20220907230519), Posting(post_ID=715210, board_name=review, time=20220908000147), Posting(post_ID=715400, board_name=free, time=20220909102359)], dont_want=false), Customer(ID=101, name=yoon, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=400000, time=20220719135000)], messages=[], posts=[], dont_want=false), Customer(ID=104, name=kwan, level=S, shopping_list=[ShoppingItem(product_ID=19038, price=400000, time=20220819135000)], messages=[], posts=[], dont_want=false)]
+1. [Customer(ID=100, name=hong, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=200000, time=20220719135000), ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508), ShoppingItem(product_ID=19075, price=80000, time=20220908003720), ShoppingItem(product_ID=18129, price=160000, time=20220908182204)], messages=[Message(msg_ID=1370017, msg_type=0, title=앱 사용법 안내, content=앱 사용법 안내입니다., time=20220716093100), Message(msg_ID=1370025, msg_type=1, title=앱 가입 이벤트 당첨, content=앱 가입 이벤트 당첨을 축하드립니다., time=20220720100004), Message(msg_ID=1370094, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '여기 깨끗한 유저 천국이네요'가 추천 5회 받았습니다., time=20220803220721), Message(msg_ID=1370106, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '저도 확진됐네요. 모두 조심하세요'가 추천 5회 받았습니다., time=20220805143010), Message(msg_ID=1370107, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 1회입니다. (사유: 방문 거래 약속 미이행), time=20220808163000), Message(msg_ID=1370109, msg_type=0, title=게시물 삭제 안내, content=작성하신 게시물 '아니 코로나 때문에 거래 약속 못 지킨 걸로 경고네요?'가 운영원칙 위반으로 삭제되었습니다., time=20220808171145), Message(msg_ID=1370110, msg_type=4, title=게시판 비매너 경고, content=게시판 비매너 경고 누적 1회입니다. (사유: 유저 간 분쟁 유발), time=20220808171205), Message(msg_ID=1370114, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 2회입니다. (사유: 거래 상대방과의 분쟁 유발), time=20220808180417), Message(msg_ID=1370115, msg_type=0, title=앱 사용 정지 안내, content=단시간 내 다수 경고로 인해 고객님의 앱 사용이 2022-09-07 오후 6:04:27 까지 정지됩니다, time=20220808180427), Message(msg_ID=1370185, msg_type=3, title=추석 이벤트 안내, content=2022년 한가위 이벤트 안내입니다., time=20220908134700)], posts=[Posting(post_ID=703918, board_name=exchange, time=20220802114736), Posting(post_ID=704001, board_name=review, time=20220803160511), Posting(post_ID=704007, board_name=free, time=20220803173920), Posting(post_ID=704924, board_name=free, time=20220805102840), Posting(post_ID=705650, board_name=free, time=20220808082239), Posting(post_ID=715186, board_name=free, time=20220907181128), Posting(post_ID=715188, board_name=review, time=20220907221000), Posting(post_ID=715205, board_name=review, time=20220907230519), Posting(post_ID=715210, board_name=review, time=20220908000147), Posting(post_ID=715400, board_name=free, time=20220909102359)], dont_want=false), Customer(ID=101, name=yoon, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=400000, time=20220719135000), ShoppingItem(product_ID=19125, price=200000, time=20220907115000)], messages=[], posts=[], dont_want=false), Customer(ID=104, name=kwan, level=S, shopping_list=[ShoppingItem(product_ID=19038, price=400000, time=20220819135000), ShoppingItem(product_ID=17502, price=420000, time=20220901144030), ShoppingItem(product_ID=17513, price=310000, time=20220902144032), ShoppingItem(product_ID=17514, price=270000, time=20220903144034)], messages=[], posts=[], dont_want=false)]
 2. [[ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508)], [], [ShoppingItem(product_ID=19038, price=400000, time=20220819135000)]]
 3. [600000, 0, 400000]
 4. [ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508)]
@@ -319,6 +329,59 @@ fun main() {
 10. [Message(msg_ID=1370107, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 1회입니다. (사유: 방문 거래 약속 미이행), time=20220808163000), Message(msg_ID=1370110, msg_type=4, title=게시판 비매너 경고, content=게시판 비매너 경고 누적 1회입니다. (사유: 유저 간 분쟁 유발), time=20220808171205), Message(msg_ID=1370114, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 2회입니다. (사유: 거래 상대방과의 분쟁 유발), time=20220808180417), Message(msg_ID=1370185, msg_type=3, title=추석 이벤트 안내, content=2022년 한가위 이벤트 안내입니다., time=20220908134700)]
 11. 20.299999999999997
 
+1. [Customer(ID=100, name=hong, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=200000, time=20220719135000), ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508), ShoppingItem(product_ID=19075, price=80000, time=20220908003720), ShoppingItem(product_ID=18129, price=160000, time=20220908182204)], messages=[Message(msg_ID=1370017, msg_type=0, title=앱 사용법 안내, content=앱 사용법 안내입니다., time=20220716093100), Message(msg_ID=1370025, msg_type=1, title=앱 가입 이벤트 당첨, content=앱 가입 이벤트 당첨을 축하드립니다., time=20220720100004), Message(msg_ID=1370094, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '여기 깨끗한 유저 천국이네요'가 추천 5회 받았습니다., time=20220803220721), Message(msg_ID=1370106, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '저도 확진됐네요. 모두 조심하세요'가 추천 5회 받았습니다., time=20220805143010), Message(msg_ID=1370107, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 1회입니다. (사유: 방문 거래 약속 미이행), time=20220808163000), Message(msg_ID=1370109, msg_type=0, title=게시물 삭제 안내, content=작성하신 게시물 '아니 코로나 때문에 거래 약속 못 지킨 걸로 경고네요?'가 운영원칙 위반으로 삭제되었습니다., time=20220808171145), Message(msg_ID=1370110, msg_type=4, title=게시판 비매너 경고, content=게시판 비매너 경고 누적 1회입니다. (사유: 유저 간 분쟁 유발), time=20220808171205), Message(msg_ID=1370114, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 2회입니다. (사유: 거래 상대방과의 분쟁 유발), time=20220808180417), Message(msg_ID=1370115, msg_type=0, title=앱 사용 정지 안내, content=단시간 내 다수 경고로 인해 고객님의 앱 사용이 2022-09-07 오후 6:04:27 까지 정지됩니다, time=20220808180427), Message(msg_ID=1370185, msg_type=3, title=추석 이벤트 안내, content=2022년 한가위 이벤트 안내입니다., time=20220908134700)], posts=[Posting(post_ID=703918, board_name=exchange, time=20220802114736), Posting(post_ID=704001, board_name=review, time=20220803160511), Posting(post_ID=704007, board_name=free, time=20220803173920), Posting(post_ID=704924, board_name=free, time=20220805102840), Posting(post_ID=705650, board_name=free, time=20220808082239), Posting(post_ID=715186, board_name=free, time=20220907181128), Posting(post_ID=715188, board_name=review, time=20220907221000), Posting(post_ID=715205, board_name=review, time=20220907230519), Posting(post_ID=715210, board_name=review, time=20220908000147), Posting(post_ID=715400, board_name=free, time=20220909102359)], dont_want=false), Customer(ID=101, name=yoon, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=400000, time=20220719135000), ShoppingItem(product_ID=19125, price=200000, time=20220907115000)], messages=[], posts=[], dont_want=false), Customer(ID=104, name=kwan, level=S, shopping_list=[ShoppingItem(product_ID=19038, price=400000, time=20220819135000), ShoppingItem(product_ID=17502, price=420000, time=20220901144030), ShoppingItem(product_ID=17513, price=310000, time=20220902144032), ShoppingItem(product_ID=17514, price=270000, time=20220903144034)], messages=[], posts=[], dont_want=false)]
+2. [[ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508)], [], [ShoppingItem(product_ID=19038, price=400000, time=20220819135000)]]
+3. [600000, 0, 400000]
+4. []
+5. 0
+6. 0.0
+7. 20.0
+8. 0
+9. 20.0
+10. []
+11. 20.0
+
+1. [Customer(ID=102, name=muk, level=A, shopping_list=[ShoppingItem(product_ID=19036, price=300000, time=20220720135000), ShoppingItem(product_ID=19126, price=200000, time=20220801001357)], messages=[], posts=[], dont_want=false), Customer(ID=103, name=so, level=A, shopping_list=[ShoppingItem(product_ID=19037, price=200000, time=20220721135000), ShoppingItem(product_ID=19130, price=100000, time=20220803001357)], messages=[], posts=[], dont_want=false)]
+2. [[ShoppingItem(product_ID=19126, price=200000, time=20220801001357)], [ShoppingItem(product_ID=19130, price=100000, time=20220803001357)]]
+3. [200000, 100000]
+4. [ShoppingItem(product_ID=19126, price=200000, time=20220801001357)]
+5. 200000
+6. 1.3333333333333333
+7. 11.266666666666667
+8. 0
+9. 11.266666666666667
+10. []
+11. 11.266666666666667
+
+1. [Customer(ID=102, name=muk, level=A, shopping_list=[ShoppingItem(product_ID=19036, price=300000, time=20220720135000), ShoppingItem(product_ID=19126, price=200000, time=20220801001357)], messages=[], posts=[], dont_want=false), Customer(ID=103, name=so, level=A, shopping_list=[ShoppingItem(product_ID=19037, price=200000, time=20220721135000), ShoppingItem(product_ID=19130, price=100000, time=20220803001357)], messages=[], posts=[], dont_want=false)]
+2. [[ShoppingItem(product_ID=19126, price=200000, time=20220801001357)], [ShoppingItem(product_ID=19130, price=100000, time=20220803001357)]]
+3. [200000, 100000]
+4. [ShoppingItem(product_ID=19130, price=100000, time=20220803001357)]
+5. 100000
+6. 0.6666666666666666
+7. 10.55
+8. 0
+9. 10.55
+10. []
+11. 10.55
+
+1. [Customer(ID=100, name=hong, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=200000, time=20220719135000), ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508), ShoppingItem(product_ID=19075, price=80000, time=20220908003720), ShoppingItem(product_ID=18129, price=160000, time=20220908182204)], messages=[Message(msg_ID=1370017, msg_type=0, title=앱 사용법 안내, content=앱 사용법 안내입니다., time=20220716093100), Message(msg_ID=1370025, msg_type=1, title=앱 가입 이벤트 당첨, content=앱 가입 이벤트 당첨을 축하드립니다., time=20220720100004), Message(msg_ID=1370094, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '여기 깨끗한 유저 천국이네요'가 추천 5회 받았습니다., time=20220803220721), Message(msg_ID=1370106, msg_type=2, title=추천 5회 달성, content=작성하신 게시물 '저도 확진됐네요. 모두 조심하세요'가 추천 5회 받았습니다., time=20220805143010), Message(msg_ID=1370107, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 1회입니다. (사유: 방문 거래 약속 미이행), time=20220808163000), Message(msg_ID=1370109, msg_type=0, title=게시물 삭제 안내, content=작성하신 게시물 '아니 코로나 때문에 거래 약속 못 지킨 걸로 경고네요?'가 운영원칙 위반으로 삭제되었습니다., time=20220808171145), Message(msg_ID=1370110, msg_type=4, title=게시판 비매너 경고, content=게시판 비매너 경고 누적 1회입니다. (사유: 유저 간 분쟁 유발), time=20220808171205), Message(msg_ID=1370114, msg_type=3, title=거래 비매너 경고, content=거래 비매너 경고 누적 2회입니다. (사유: 거래 상대방과의 분쟁 유발), time=20220808180417), Message(msg_ID=1370115, msg_type=0, title=앱 사용 정지 안내, content=단시간 내 다수 경고로 인해 고객님의 앱 사용이 2022-09-07 오후 6:04:27 까지 정지됩니다, time=20220808180427), Message(msg_ID=1370185, msg_type=3, title=추석 이벤트 안내, content=2022년 한가위 이벤트 안내입니다., time=20220908134700)], posts=[Posting(post_ID=703918, board_name=exchange, time=20220802114736), Posting(post_ID=704001, board_name=review, time=20220803160511), Posting(post_ID=704007, board_name=free, time=20220803173920), Posting(post_ID=704924, board_name=free, time=20220805102840), Posting(post_ID=705650, board_name=free, time=20220808082239), Posting(post_ID=715186, board_name=free, time=20220907181128), Posting(post_ID=715188, board_name=review, time=20220907221000), Posting(post_ID=715205, board_name=review, time=20220907230519), Posting(post_ID=715210, board_name=review, time=20220908000147), Posting(post_ID=715400, board_name=free, time=20220909102359)], dont_want=false), Customer(ID=101, name=yoon, level=S, shopping_list=[ShoppingItem(product_ID=19035, price=400000, time=20220719135000), ShoppingItem(product_ID=19125, price=200000, time=20220907115000)], messages=[], posts=[], dont_want=false), Customer(ID=104, name=kwan, level=S, shopping_list=[ShoppingItem(product_ID=19038, price=400000, time=20220819135000), ShoppingItem(product_ID=17502, price=420000, time=20220901144030), ShoppingItem(product_ID=17513, price=310000, time=20220902144032), ShoppingItem(product_ID=17514, price=270000, time=20220903144034)], messages=[], posts=[], dont_want=false)]
+2. [[ShoppingItem(product_ID=19036, price=210000, time=20220801100659), ShoppingItem(product_ID=18112, price=150000, time=20220806113752), ShoppingItem(product_ID=17024, price=240000, time=20220807121508)], [], [ShoppingItem(product_ID=19038, price=400000, time=20220819135000)]]
+3. [600000, 0, 400000]
+4. [ShoppingItem(product_ID=19038, price=400000, time=20220819135000)]
+5. 400000
+6. 1.2000000000000002
+7. 23.84
+8. 0
+9. 23.84
+10. []
+11. 23.84
+
+
 ID      won
 100     203000
+101     200000
+102     112700
+103     105500
+104     238400
 ```
