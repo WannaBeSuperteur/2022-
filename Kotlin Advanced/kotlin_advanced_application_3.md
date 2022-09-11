@@ -56,7 +56,7 @@ data class VsGame (
 // 보석과의 대결 모드의 각 게임 정보
 data class VsGemsGame (
     val gem_name: String, // 대결 상대인 보석의 이름
-    val is_win: Boolean // 승리 여부
+    val is_win: Boolean // 플레이어의 승리 여부
 )
 ```
 
