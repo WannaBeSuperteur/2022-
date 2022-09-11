@@ -32,14 +32,14 @@ data class Customer (
     val ID: Int, // 고객 ID
     val name: String, // 고객 이름
     val level: String, // 고객 등급 (S, A, B, C)
-    val shopping_list: List<ShoppingList>, // 쇼핑 리스트
+    val shopping_list: List<ShoppingItem>, // 쇼핑 리스트
     val messages: List<Message>, // 고객이 받은 메시지
     val posts: List<Posting>, // 고객이 남긴 글
     val dont_want: Boolean // 고객이 사은품 수령을 원하지 않는다고 명시하면 true, 그렇지 않으면 false
 )
 
-// 고객의 쇼핑 목록
-data class ShoppingList (
+// 고객의 쇼핑 목록의 각 항목
+data class ShoppingItem (
     val product_ID: Int, // 제품 ID
     val price: Int, // 제품 가격 (원)
     val time: String // 제품 구매 일시 (예를 들어 2022년 8월 31일 오후 4시 56분 7초이면 "20220831165607")
