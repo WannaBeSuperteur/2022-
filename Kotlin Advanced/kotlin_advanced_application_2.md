@@ -385,3 +385,21 @@ ID      won
 103     105500
 104     238400
 ```
+
+## 참고 (sumOf 함수 이용)
+```kotlin
+// shopping list에 대해 가격의 합을 계산하는 함수
+val sumPrice : (List<ShoppingItem>) -> Int = { it ->
+    it.fold(0) { acc, e ->
+        acc + e.price
+    }
+}
+```
+대신
+```kotlin
+// shopping list에 대해 가격의 합을 계산하는 함수
+val sumPrice : (List<ShoppingItem>) -> Int = { it ->
+    it.sumOf { it.price }
+}
+```
+을 이용해도 동일한 결과를 얻을 수 있다.
