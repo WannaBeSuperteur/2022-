@@ -299,3 +299,40 @@ try to get best record : 9, 9
 
 4 680 24 6 2 35 3 1
 ```
+
+## 참고 (sumOf 함수 이용)
+```kotlin
+// 2. 블럭 제거자 (fold 함수를 이용하여 property를 합산)
+val removedInChallenge = player.challenge_mode_info.fold (0) { acc, e -> acc + e.blocks }
+val removedInVs = player.vs_mode_info.fold (0) { acc, e -> acc + e.removed_blocks.sum() }
+```
+대신
+```kotlin
+// 2. 블럭 제거자 (fold 함수를 이용하여 property를 합산)
+val removedInChallenge = player.challenge_mode_info.sumOf { it.blocks }
+val removedInVs = player.vs_mode_info.sumOf { it.removed_blocks.sum() }
+```
+를 이용해도 같은 결과를 얻을 수 있다.
+
+또한,
+```kotlin
+// 6. vs의 왕
+var achieve6Count = player.vs_mode_info.fold (0) { acc, e ->
+    if (e.color == 0) {
+        acc + e.removed_blocks[0]
+    } else {
+        acc
+    }
+}
+```
+대신
+```kotlin
+var achieve6Count = player.vs_mode_info.sumOf {
+    if (it.color == 0) {
+        it.removed_blocks[0]
+    } else {
+        0
+    }
+}
+```
+를 이용해도 같은 결과를 얻을 수 있다.
