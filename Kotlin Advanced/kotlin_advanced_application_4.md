@@ -100,11 +100,15 @@ fun recommendCharacter(user: User, characterInfo: CharacterInfo): String {
     println("4. ${charScore}")
     println("5. ${characterScores}")
     
+    // 이름순으로 정렬
+    characterScores.sortBy { it.name }
+    println("6. ${characterScores}")
+    
     // 제외 캐릭터에 해당하는 캐릭터를 제외
     characterScores = characterScores.filterNot {
         it.name in user.do_not_want
     }.toMutableList()
-    println("6. ${characterScores}")
+    println("7. ${characterScores}")
     
     // 점수가 가장 높은 캐릭터
     val maxScore = characterScores.fold(0) { acc, e ->
@@ -113,7 +117,7 @@ fun recommendCharacter(user: User, characterInfo: CharacterInfo): String {
     characterScores = characterScores.filter {
         it.score == maxScore
     }.toMutableList()
-    println("7. ${characterScores}")
+    println("8. ${characterScores}")
     
     // 점수가 가장 높은 캐릭터가 여러 개이면, 이들 중 매력 요소별 합산이 가장 큰 캐릭터
     val maxAttractiveScoreSum = characterScores.fold(0) { acc, e ->
@@ -122,7 +126,7 @@ fun recommendCharacter(user: User, characterInfo: CharacterInfo): String {
     characterScores = characterScores.filter {
         it.attractiveScoreSum == maxAttractiveScoreSum
     }.toMutableList()
-    println("8. ${characterScores}")
+    println("9. ${characterScores}")
     
     // 그래도 여러 개이면, 가장 먼저 오는 캐릭터
     return characterScores[0].name
@@ -178,9 +182,10 @@ fun main() {
 3. 15940
 4. {Ann=29, Bob=24, Chris=50, David=65, Elsa=99, Frank=50, Ginny=75, Hestia=80}
 5. [characterScore(name=Ann, score=250125, attractiveScoreSum=8625), characterScore(name=Bob, score=276480, attractiveScoreSum=11520), characterScore(name=Chris, score=694000, attractiveScoreSum=13880), characterScore(name=David, score=476125, attractiveScoreSum=7325), characterScore(name=Elsa, score=1321650, attractiveScoreSum=13350), characterScore(name=Frank, score=808000, attractiveScoreSum=16160), characterScore(name=Ginny, score=621000, attractiveScoreSum=8280), characterScore(name=Hestia, score=1275200, attractiveScoreSum=15940)]
-6. [characterScore(name=Ann, score=250125, attractiveScoreSum=8625), characterScore(name=Chris, score=694000, attractiveScoreSum=13880), characterScore(name=David, score=476125, attractiveScoreSum=7325), characterScore(name=Elsa, score=1321650, attractiveScoreSum=13350), characterScore(name=Frank, score=808000, attractiveScoreSum=16160), characterScore(name=Hestia, score=1275200, attractiveScoreSum=15940)]
-7. [characterScore(name=Elsa, score=1321650, attractiveScoreSum=13350)]
+6. [characterScore(name=Ann, score=250125, attractiveScoreSum=8625), characterScore(name=Bob, score=276480, attractiveScoreSum=11520), characterScore(name=Chris, score=694000, attractiveScoreSum=13880), characterScore(name=David, score=476125, attractiveScoreSum=7325), characterScore(name=Elsa, score=1321650, attractiveScoreSum=13350), characterScore(name=Frank, score=808000, attractiveScoreSum=16160), characterScore(name=Ginny, score=621000, attractiveScoreSum=8280), characterScore(name=Hestia, score=1275200, attractiveScoreSum=15940)]
+7. [characterScore(name=Ann, score=250125, attractiveScoreSum=8625), characterScore(name=Chris, score=694000, attractiveScoreSum=13880), characterScore(name=David, score=476125, attractiveScoreSum=7325), characterScore(name=Elsa, score=1321650, attractiveScoreSum=13350), characterScore(name=Frank, score=808000, attractiveScoreSum=16160), characterScore(name=Hestia, score=1275200, attractiveScoreSum=15940)]
 8. [characterScore(name=Elsa, score=1321650, attractiveScoreSum=13350)]
+9. [characterScore(name=Elsa, score=1321650, attractiveScoreSum=13350)]
 
 recommended character = Elsa
 ```
