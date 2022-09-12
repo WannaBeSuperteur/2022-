@@ -34,6 +34,8 @@ data class AllContentsInfo (
 
 // 각 콘텐츠에 대한 정보
 data class Content (
+    val content_id: Int, // 콘텐츠 ID
+    val name: String, // 콘텐츠 이름
     val content_vector: List<Double>, // 콘텐츠 벡터 (6차원 배열)
     val user_fun: Boolean // 유저가 재미있다고 표시한 콘텐츠(총 N개)이면 true, 아니면 false
 )
