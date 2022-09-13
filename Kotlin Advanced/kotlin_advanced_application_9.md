@@ -1,7 +1,7 @@
 ## 요구사항 분석
 워너비슈퍼추어소프트에서는 올해 하반기에 총 5명의 개발자를 채용하기로 결정하였다. 전형 순서는 ```코딩 테스트 (총 3회) + 서류 결격사유 확인 -> 면접 (총 2회)```이다. 이를 위해서 총 15명의 지원자를 면접 대상자를 선발하려고 하는데, 그 기준은 다음과 같다.
 * 서류 전형에서 결격 사유가 있는 인원은 면접 대상자 선발을 위한 지원자 목록에서 먼저 제외한다. 이때 다음 중 1가지 이상을 만족시키면 서류 전형에서 결격 사유가 있는 것이다.
-  * ```경력```의 일수가 ```180일``` 또는 ```1097일``` 이상
+  * ```경력```의 일수가 ```180일``` 미만 또는 ```1097일``` 이상
   * 현재 전형과 지원 기록상의 각 전형의 최종 결과 발표일 기준으로 최근 ```2년``` 이내에 워너비슈퍼추어소프트의 채용 전형에서 부정행위를 한 사람
 * 제외된 인원을 뺀 나머지 각 지원자들을 ```1차 코딩 테스트 점수```의 값에 따라서 다음과 같이 그룹화하고, 각 그룹에서 일정 인원을 면접 대상자로 선발한다.
   * ```전설 그룹``` : ```1차 코딩 테스트 점수```가 전체에서 상위 ```10%``` 이내에 드는 인원들의 모임으로, 여기서 ```나머지 총점```을 기준으로 상위 ```5명```을 선발한다.
@@ -115,7 +115,7 @@ fun getClassOfCandidate(candidate: Candidate, candidateList: List<Candidate>): S
     }
     println("2. (${candidate.id}) ${candidate.name}, ${firstCodingScore}, ${percentFromTop}, ${candidateClass}")
 
-	return candidateClass
+    return candidateClass
 }
 
 // 면접 대상자 목록 출력
@@ -171,7 +171,7 @@ fun getIntervieweeList(recruitment: Recruitment) {
             
             // 기본 점수 계산
             val base = Math.max(test2Score * 0.45 + test3Score * 0.55,
-                                 test2Score * 0.3 + test3Score * 0.7)
+                                test2Score * 0.3 + test3Score * 0.7)
             
             // 가산점 계산
             val additional = if (test2Perfect >= 3 && test3Perfect >= 3) {
