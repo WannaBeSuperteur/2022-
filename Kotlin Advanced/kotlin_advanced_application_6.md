@@ -230,3 +230,21 @@ fun main() {
 
 GPA of hong : 3.2083333333333335
 ```
+
+## 참고 사항
+```kotlin
+// 상대평가인 경우 : 순위 계산 및 순위에 따라 반환
+else {
+    val rankRatio = subjectInfo.scores.filter {
+        it > myScoreRatio
+    }.size / subjectInfo.scores.size.toDouble()
+```
+을
+```kotlin
+// 상대평가인 경우 : 순위 계산 및 순위에 따라 반환
+else {
+    val rankRatio = subjectInfo.scores.count {
+        it > myScoreRatio
+    } / subjectInfo.scores.size.toDouble()
+```
+로 바꿔도 동일한 결과가 출력된다.
