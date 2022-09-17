@@ -492,3 +492,51 @@ fun main() {
 지원자 ID: 35, 이름: cos
 지원자 ID: 36, 이름: tan
 ```
+
+## 참고 사항 ##
+```kotlin
+val percentFromTop = otherCandidates.filter {
+    it.first_test_result.scores.sum() > firstCodingScore
+}.size / otherCandidates.size.toDouble()
+```
+을
+```kotlin
+val percentFromTop = otherCandidates.count {
+    it.first_test_result.scores.sum() > firstCodingScore
+} / otherCandidates.size.toDouble()
+```
+으로 바꾸어도 결과는 동일하다.
+
+```kotlin
+.filter { it ->
+    it.apply_history.filter { ah ->
+        compareDate(ah.finish_date, recruitment.finish_date) <= 20000 && ah.result == -1
+    }.size == 0
+}
+```
+을
+```kotlin
+.filter { it ->
+    it.apply_history.count { ah ->
+        compareDate(ah.finish_date, recruitment.finish_date) <= 20000 && ah.result == -1
+    } == 0
+}
+```
+으로 바꾸어도 결과는 동일하다.
+
+```kotlin
+it.value.forEach { c -> // 각 지원자의 나머지 총점 계산
+    val test2Score = c.second_test_result.scores.sum()
+    val test3Score = c.third_test_result.scores.sum()
+    val test2Perfect = c.second_test_result.scores.filter { it == 100 }.size
+    val test3Perfect = c.third_test_result.scores.filter { it == 100 }.size
+```
+을
+```kotlin
+it.value.forEach { c -> // 각 지원자의 나머지 총점 계산
+    val test2Score = c.second_test_result.scores.sum()
+    val test3Score = c.third_test_result.scores.sum()
+    val test2Perfect = c.second_test_result.scores.count { it == 100 }
+    val test3Perfect = c.third_test_result.scores.count { it == 100 }
+```
+으로 바꾸어도 결과는 동일하다.
