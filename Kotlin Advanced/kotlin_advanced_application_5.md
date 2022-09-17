@@ -118,7 +118,7 @@ fun getProportionOfLongerThan400Ms(logOfEachApi: Map<String, List<APILog>>) {
     
     logOfEachApi.forEach {
         val total = it.value.size
-        val exceed = it.value.filter {
+        val exceed = it.value.filter { // it.value.count { ... } 로 해도 같은 결과임
             it.server_response - it.client_call > 400
         }.size
         val ratio = (exceed.toDouble() / total.toDouble() * 10000.0).roundToInt() / 100.0
