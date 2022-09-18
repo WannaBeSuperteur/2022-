@@ -188,12 +188,52 @@ fun printAllMusicsOfSinger(singerName: String, musics: List<Music>, singers: Lis
 
 // 4. 가수 이름이 WEVE인 가수에 소속된 멤버들이 소속된 모든 '가수'의 이름을 출력하시오.
 fun printAllSingersOfMembers(singerName: String, singers: List<Singer>) {
-    // 작성중
+    val singerMemberIDs = singers.find {
+        it.name == singerName
+    }!!.members.map {
+        it.id
+    }
+    println("\n7. ${singerMemberIDs}")
+    
+    val setOfSingerMemberIDs = singerMemberIDs.toSet()
+    println("8. set: ${setOfSingerMemberIDs}")
+    
+    val allNames = singers.foldIndexed (mutableListOf<String>()) { idx, acc, e ->
+        val memberIDs = singers[idx].members.map { it.id }
+        val setOfMemberIDs = memberIDs.toSet()
+        println("9. (${singers[idx].name}) set: ${setOfMemberIDs.intersect(singerMemberIDs)}")
+        
+        // 멤버 ID 간 교집합을 검사
+        if (setOfMemberIDs.intersect(singerMemberIDs).size > 0) {
+            acc.add(e.name)
+        }
+        acc
+    }
+    
+    println("4 답: ${allNames}")
 }
 
 // 5. 어떤 음악에 대해, 그 음악을 들은 모든 유저가 매긴 평점 평균을 해당 음악의 총 평점으로 한다. 가수 ID가 0인 가수가 발매한 모든 음악에 대해, 해당 음악의 총 평점의 평균을 출력하시오.
 fun printAvgScoreOfSinger(singerId: Int, musics: List<Music>, userMusics: List<UserMusic>) {
-    // 작성중
+    val listOfSinger = musics.filter {
+        it.singer_id == singerId
+    }
+    println("\n10. ${listOfSinger}")
+    
+    val ratings = listOfSinger.map {
+        val musicId = it.id
+        val musicTitle = it.title
+        
+        val userMusicInfo = userMusics.filter { it.music_id == musicId }
+        val musicScore = userMusicInfo.sumOf { it.rating } / userMusicInfo.size.toDouble()
+        println("11. (${musicTitle}), ${musicScore}")
+        
+        musicScore // map에서 list에 대한 최종 계산 결과값을 이용 가능
+    }
+    println("12. ${ratings}")
+    
+    val avgRatings = ratings.sum() / ratings.size
+    println("5 답: ${avgRatings}")
 }
 
 fun main() {
@@ -299,4 +339,35 @@ fun main() {
     // 5. 어떤 음악에 대해, 그 음악을 들은 모든 유저가 매긴 평점 평균을 해당 음악의 총 평점으로 한다. 가수 ID가 0인 가수가 발매한 모든 음악에 대해, 해당 음악의 총 평점의 평균을 출력하시오.
     printAvgScoreOfSinger(0, musics, userMusics)
 }
+```
+
+## 예제 출력
+```kotlin
+1. [UserMusic(user_id=2, music_id=0, play_times=7, rating=3), UserMusic(user_id=2, music_id=3, play_times=9, rating=4), UserMusic(user_id=2, music_id=4, play_times=12, rating=5), UserMusic(user_id=2, music_id=9, play_times=13, rating=3)]
+1 답: 3.75
+
+2. {0=2022-09-22, 1=2022-08-16, 2=2022-05-21, 3=2027-09-01, 4=2020-06-15, 5=2022-05-05, 6=2030-07-12, 7=2022-01-03, 8=2027-12-24, 9=2030-01-07, 10=2022-10-05, 11=2022-01-01}
+3. [UserMusic(user_id=3, music_id=5, play_times=96, rating=4), UserMusic(user_id=3, music_id=6, play_times=4, rating=4), UserMusic(user_id=3, music_id=10, play_times=12, rating=5), UserMusic(user_id=3, music_id=11, play_times=100, rating=5)]
+4. [5, 6, 10, 11]
+2 답: 2022-01-01, 2030-07-12
+
+6. 0
+3 답: [After LOVE, FEEL DIVE, ELEVEN]
+
+7. [0, 1, 2, 3, 4, 5]
+8. set: [0, 1, 2, 3, 4, 5]
+9. (WEVE) set: [0, 1, 2, 3, 4, 5]
+9. (BLACK MAGENTA) set: []
+9. (ENFP Girls) set: []
+9. (AUTUMN) set: [1]
+9. (H-Girls) set: [5]
+9. (M.A.N.K.I.N.D.) set: []
+4 답: [WEVE, AUTUMN, H-Girls]
+
+10. [Music(id=0, title=After LOVE, singer_id=0, release_date=2022-09-22, time=180), Music(id=5, title=FEEL DIVE, singer_id=0, release_date=2022-05-05, time=212), Music(id=11, title=ELEVEN, singer_id=0, release_date=2022-01-01, time=186)]
+11. (After LOVE), 4.0
+11. (FEEL DIVE), 4.666666666666667
+11. (ELEVEN), 5.0
+12. [4.0, 4.666666666666667, 5.0]
+5 답: 4.555555555555556
 ```
