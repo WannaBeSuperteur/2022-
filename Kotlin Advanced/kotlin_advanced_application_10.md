@@ -23,6 +23,7 @@
 * 가수
   * **가수 ID (key)**
   * 가수 이름
+  * 가수 데뷔일
   * 가수 분류 (솔로, 보이그룹, 걸그룹)
   * 멤버 목록
 
@@ -66,6 +67,7 @@ data class UserMusic (
 data class Singer (
     val id: Int, // 가수 ID    
     val name: String, // 가수 이름
+    val debut_date: String, // 데뷔일
     val type: Int, // 가수 분류 (솔로:0, 보이그룹:1, 걸그룹:2)
     val members: List<Member>
 )
