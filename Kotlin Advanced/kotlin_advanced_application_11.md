@@ -83,23 +83,23 @@ fun getCorrCoef(first: List<Double>, second: List<Double>): Double {
 import kotlin.math.*
 
 data class Developer (
-   	val name: String, // 개발자 이름
+    val name: String, // 개발자 이름
     val ID: Int, // 개발자의 고유 ID
     val MBTI: String, // MBTI
-   	val total_info: TotalInfo // 전체 정보
+    val total_info: TotalInfo // 전체 정보
 )
 
 // 전체 정보
 data class TotalInfo (
-   	val scores: Scores, // 영역별 점수
+    val scores: Scores, // 영역별 점수
     val working_hours: Int, // 주당 근로시간
     val rating: Char // 등급
 )
 
 // 영역별 점수
 data class Scores (
-   	val basic: Int, // 기본 업무 능력
-   	val skill: Int, // 기술력
+    val basic: Int, // 기본 업무 능력
+    val skill: Int, // 기술력
     val sincerity: Int, // 근태 및 성실성
     val co_working: Int // 협업 및 커뮤니케이션 능력
 )
@@ -187,10 +187,10 @@ fun printSolution(developers: List<Developer>) {
                            "근태" to getSincerity, "협업" to getCoWorking)
     
     // 1. MBTI가 E와 I인 직원들의 전체 정보의 각 항목의 최대, 최소, 평균, 중앙값
-   	// 2. MBTI가 N과 S인 직원들의 전체 정보의 각 항목의 최대, 최소, 평균, 중앙값
-   	// 3. MBTI가 T와 F인 직원들의 전체 정보의 각 항목의 최대, 최소, 평균, 중앙값
-   	// 4. MBTI가 P와 J인 직원들의 전체 정보의 각 항목의 최대, 최소, 평균, 중앙값
-   	val EI = developers.groupBy { it.MBTI[0].toString() }
+    // 2. MBTI가 N과 S인 직원들의 전체 정보의 각 항목의 최대, 최소, 평균, 중앙값
+    // 3. MBTI가 T와 F인 직원들의 전체 정보의 각 항목의 최대, 최소, 평균, 중앙값
+    // 4. MBTI가 P와 J인 직원들의 전체 정보의 각 항목의 최대, 최소, 평균, 중앙값
+    val EI = developers.groupBy { it.MBTI[0].toString() }
     val NS = developers.groupBy { it.MBTI[1].toString() }
     val TF = developers.groupBy { it.MBTI[2].toString() }
     val PJ = developers.groupBy { it.MBTI[3].toString() }
@@ -241,7 +241,7 @@ fun printSolution(developers: List<Developer>) {
     // 9. 총평 등급 점수와 주당 근로시간 간, 전체 유형 및 ISTJ 유형 각각의 상관계수
     // 10. 협업 및 커뮤니케이션 능력 점수와 주당 근로시간 간, 전체 유형 및 ISTJ 유형 각각의 상관계수
     val devsISTJ = eachMBTI.get("ISTJ")
-   	val qNumToFunc = mapOf(listOf(8, "근태 및 성실성") to getSincerity,
+    val qNumToFunc = mapOf(listOf(8, "근태 및 성실성") to getSincerity,
                            listOf(9, "총평 등급") to getRating,
                            listOf(10, "협업 및 커뮤니케이션") to getCoWorking)
     
