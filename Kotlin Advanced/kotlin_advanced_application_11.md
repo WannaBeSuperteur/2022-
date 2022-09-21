@@ -43,3 +43,36 @@ data class Scores (
     val co_working: Int // 협업 및 커뮤니케이션 능력
 )
 ```
+
+### 상관계수 계산 함수
+상관계수를 계산하는 함수는 다음과 같다.
+```kotlin
+// 상관계수 계산하기 (단, first와 second의 항목 개수는 서로 같음)
+fun getCorrCoef(first: List<Double>, second: List<Double>): Double {
+    
+    // 항목이 1개이면 계산 불가능
+    val n = first.size
+    if (n == 1) {
+        return 0.0
+    }
+
+    val avgFirst = first.sum() / n
+    val avgSecond = second.sum() / n
+    
+    val sumFirstSecond = (0..n-1).sumOf { it ->
+        (first[it] - avgFirst) * (second[it] - avgSecond)
+    }
+    val sumFirstSqaure = (0..n-1).sumOf { it ->
+        (first[it] - avgFirst) * (first[it] - avgFirst)
+    }
+    val sumSecondSqaure = (0..n-1).sumOf { it ->
+        (second[it] - avgSecond) * (second[it] - avgSecond)
+    }
+    
+    val cov = sumFirstSecond / (n - 1)
+    val varFirst = sumFirstSqaure / (n - 1)
+    val varSecond = sumSecondSqaure / (n - 1)
+    
+    return cov / Math.sqrt(varFirst * varSecond)
+}
+```
