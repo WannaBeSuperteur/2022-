@@ -58,7 +58,7 @@ data class App (
 fun getLuckyScore(id: Int, name: String): Int {
     return name.fold(id * 1234 - 56789 / (id % 123 + 321)) { acc, e ->
         3 * (acc + 5 * e.code)
-    } % 2
+    } % 101
 }
 
 // 당첨자 선발 및 표시 (n은 당첨자 인원수)
@@ -162,60 +162,60 @@ fun main() {
  **** 2명 선발 ****
 1. User(user_id=1008, user_name=suk, installed_app_ids=[0, 1, 2, 3])
 2. 앱설치=4, 다운로드합=1840000
-3. 행운점수=1
+3. 행운점수=13
 
 1. User(user_id=1011, user_name=jong, installed_app_ids=[0, 1, 2, 4])
 2. 앱설치=4, 다운로드합=1780000
-3. 행운점수=1
+3. 행운점수=65
 
 1. User(user_id=1007, user_name=ho, installed_app_ids=[0, 1, 2, 4])
 2. 앱설치=4, 다운로드합=1780000
-3. 행운점수=0
+3. 행운점수=24
 
 1. User(user_id=1000, user_name=hong, installed_app_ids=[1, 2, 3, 4])
 2. 앱설치=4, 다운로드합=1430000
-3. 행운점수=0
+3. 행운점수=54
 
 1. User(user_id=1002, user_name=jee, installed_app_ids=[0, 1, 2])
 2. 앱설치=3, 다운로드합=1680000
-3. 행운점수=1
+3. 행운점수=100
 
 1. User(user_id=1001, user_name=min, installed_app_ids=[0, 1, 3])
 2. 앱설치=3, 다운로드합=1390000
-3. 행운점수=0
+3. 행운점수=98
 
 1. User(user_id=1004, user_name=hyuk, installed_app_ids=[1, 2, 3])
 2. 앱설치=3, 다운로드합=1330000
-3. 행운점수=1
+3. 행운점수=80
+
+1. User(user_id=1010, user_name=tae, installed_app_ids=[0, 1, 4])
+2. 앱설치=3, 다운로드합=1330000
+3. 행운점수=70
 
 1. User(user_id=1005, user_name=yoon, installed_app_ids=[0, 1, 4])
 2. 앱설치=3, 다운로드합=1330000
 3. 행운점수=1
 
-1. User(user_id=1010, user_name=tae, installed_app_ids=[0, 1, 4])
-2. 앱설치=3, 다운로드합=1330000
-3. 행운점수=1
-
 1. User(user_id=1006, user_name=hyun, installed_app_ids=[1, 2, 4])
 2. 앱설치=3, 다운로드합=1270000
-3. 행운점수=1
+3. 행운점수=33
 
 1. User(user_id=1003, user_name=jinny, installed_app_ids=[1, 2])
 2. 앱설치=2, 다운로드합=1170000
-3. 행운점수=1
+3. 행운점수=90
 
 1. User(user_id=1009, user_name=myeong, installed_app_ids=[1, 3])
 2. 앱설치=2, 다운로드합=880000
-3. 행운점수=1
+3. 행운점수=47
 
-4. event cutlines: 4, 1780000, 1
+4. event cutlines: 4, 1780000, 65
 
 당첨자 명단 :
 당첨자 ID: 1008, 이름: suk
 당첨자 ID: 1011, 이름: jong
 
  **** 3명 선발 ****
-4. event cutlines: 4, 1780000, 0
+4. event cutlines: 4, 1780000, 24
 
 당첨자 명단 :
 당첨자 ID: 1008, 이름: suk
@@ -223,7 +223,7 @@ fun main() {
 당첨자 ID: 1007, 이름: ho
 
  **** 4명 선발 ****
-4. event cutlines: 4, 1430000, 0
+4. event cutlines: 4, 1430000, 54
 
 당첨자 명단 :
 당첨자 ID: 1008, 이름: suk
@@ -232,7 +232,7 @@ fun main() {
 당첨자 ID: 1000, 이름: hong
 
  **** 5명 선발 ****
-4. event cutlines: 3, 1680000, 1
+4. event cutlines: 3, 1680000, 100
 
 당첨자 명단 :
 당첨자 ID: 1008, 이름: suk
