@@ -9,8 +9,9 @@
 ### 데이터 클래스
 ```kotlin
 // 데이터 정보
-data class File (
+data class NumericData (
     val values: List<Double>, // 값의 목록
     val howto: String, // 예측 방법을 나타내는 howto 값
+    val N: Int, // 예측해야 하는 다음 값의 개수
 )
 ```
