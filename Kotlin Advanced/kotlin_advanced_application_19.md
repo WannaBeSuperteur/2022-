@@ -637,3 +637,65 @@ ai_project.png / PNG 파일 / 2022-09-25 12:04:28 / 391124 / 숨기지 않음 / 
 test.kt / 코틀린 파일 / 2022-10-05 08:10:22 / 445 / 숨기지 않음 / young
 ai_project.xtx / XTX 파일 / 2022-09-25 10:24:59 / 18048 / 숨기지 않음 / hongmuk2
 ```
+
+### 참고
+함수 코드를 다음과 같이 간결하게 만들 수 있다.
+```kotlin
+// lsn (name) : 이름이 (name)을 포함하는 모든 파일에 대해 ls와 같이 한다.
+fun findIndicesByName(files: List<File>, name: String): Set<Int> {
+    return (0 until files.size).filter {
+        files[it].name.contains(name)
+    }.toSet()
+}
+
+// lse (extension) : 확장자가 (extension)인 모든 파일에 대해 ls와 같이 한다.
+fun findIndicesByExtension(files: List<File>, extension: String): Set<Int> {
+    return (0 until files.size).filter {
+        files[it].name.substringAfterLast(".") == extension
+    }.toSet()
+}
+
+// lsm (date0) (date1) : 수정한 날짜가 (date0) 이후 (date1) 이전(양 끝 포함)인 모든 파일에 대해 ls와 같이 한다.
+fun findIndicesByDate(files: List<File>, date0: String, date1: String): Set<Int> {
+    val newDate0 = if (date0 == "*") { "0000-01-01" } else { date0 }
+    val newDate1 = if (date1 == "*") { "9999-12-31" } else { date1 }
+    
+    return (0 until files.size).filter {
+        val compare0 = files[it].modified_date.substringBefore(" ").compareTo(newDate0)
+        val compare1 = files[it].modified_date.substringBefore(" ").compareTo(newDate1)
+        compare0 >= 0 && compare1 <= 0
+    }.toSet()
+}
+
+// lss (size0) (size1) : 바이트 단위의 파일 크기가 (size0) 이상 (size1) 이하인 모든 파일에 대해 ls와 같이 한다.
+fun findIndicesBySize(files: List<File>, size0: Int, size1: Int? = null): Set<Int> {
+    return (0 until files.size).filter {
+        with (files[it].size) {
+            val atLeastAndAtMostCond = size1 != null && this >= size0 && this <= size1
+            val atLeastOnlyCond = size1 == null && this >= size0
+            atLeastAndAtMostCond || atLeastOnlyCond
+        }
+    }.toSet()
+}
+
+// lsh Y, lsh N : 숨김 파일 여부가 각각 '예', '아니오'인 모든 파일에 대해 ls와 같이 한다.
+fun findIndicesByHidden(files: List<File>, isHidden: Boolean): Set<Int> {
+    return (0 until files.size).filter {
+        files[it].hidden == isHidden
+    }.toSet()
+}
+
+// lsc (creator) : 작성자의 이름이 (creator)인 모든 파일에 대해 ls와 같이 한다.
+fun findIndicesByCreatorName(files: List<File>, creatorName: String): Set<Int> {
+    return (0 until files.size).filter {
+        files[it].creator == creatorName
+    }.toSet()
+}
+
+// lsci (creator) : 작성자의 이름이 (creator)를 포함하는 모든 파일에 대해 ls와 같이 한다.
+fun findIndicesByIncludingCreatorName(files: List<File>, creatorName: String): Set<Int> {
+    return (0 until files.size).filter {
+        files[it].creator.contains(creatorName)
+    }.toSet()
+}
+```
