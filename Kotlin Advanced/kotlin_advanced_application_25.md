@@ -41,7 +41,7 @@ data class Game (
 ```
 
 ## 코드 및 실행 결과
-### 
+### 코드
 ```kotlin
 // 게임 정보
 data class Game (
