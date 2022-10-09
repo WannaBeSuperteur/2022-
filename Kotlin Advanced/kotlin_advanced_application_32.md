@@ -36,6 +36,8 @@ data class Question (
 data class TestCase (
     val score: Int, // 테스트 케이스의 배점
     val correct_answer: String, // 정답
-    var candidate_answer: String // 지원자의 알고리즘이 출력한 답
+    var candidate_answer: String, // 지원자의 알고리즘이 출력한 답
+    val time: Int, // 알고리즘 수행 시간 (ms)
+    val memory: Int // 알고리즘 수행 시 사용된 메모리 (MB)
 )
 ```
