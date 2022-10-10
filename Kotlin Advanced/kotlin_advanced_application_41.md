@@ -4,10 +4,12 @@
 [ input (30    ) ]
         V          <--- convolution with 2 filters A1, A2 (each 3 x 1 matrix)
 [ Conv1 (28 x 2) ]
+        |          <--- leakyReLU(0.05)
         V          <--- max pooling
 [ Pool1 (14 x 2) ]
         V          <--- convolution with 4 filters B1, B2, B3, B4 (each 3 x 1 matrix)
 [ Conv2 (12 x 4) ]
+        |          <--- leakyReLU(0.1)
         V          <--- average pooling
 [ Pool2 ( 6 x 4) ]
         V          <--- convolution with 4 filters C1, C2, C3, C4 (each 3 x 1 matrix)
