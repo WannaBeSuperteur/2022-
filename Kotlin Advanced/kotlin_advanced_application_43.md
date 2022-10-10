@@ -82,7 +82,9 @@ fun findSolution(
                 }
                 
                 // 그렇지 않으면 계속 탐색
-                findSolution(newStr, goal, ruleMap, newSolution, finalSolution, count + 1)
+                else {
+                    findSolution(newStr, goal, ruleMap, newSolution, finalSolution, count + 1)
+                }
             }
         }
     }
@@ -135,7 +137,6 @@ fun main() {
 현재: S, 탐색: [S]
 현재: aBa, 탐색: [S, aBa]
 현재: abAa, 탐색: [S, aBa, abAa]
-현재: abaaa, 탐색: [S, aBa, abAa, abaaa]
 현재: aAaa, 탐색: [S, aBa, aAaa]
 
 최종 정답 : S -> aBa -> abAa -> abaaa
@@ -147,7 +148,6 @@ fun main() {
 현재: abAa, 탐색: [S, aBa, abAa]
 현재: abaaa, 탐색: [S, aBa, abAa, abaaa]
 현재: aAaa, 탐색: [S, aBa, aAaa]
-현재: aaaaa, 탐색: [S, aBa, aAaa, aaaaa]
 
 최종 정답 : S -> aBa -> aAaa -> aaaaa
 
@@ -211,7 +211,6 @@ fun main() {
 현재: abaA, 탐색: [S, AA, aAA, aAaA, abaA]
 현재: abaaA, 탐색: [S, AA, aAA, aAaA, abaA, abaaA]
 현재: abaAa, 탐색: [S, AA, aAA, aAaA, abaA, abaAa]
-현재: abab, 탐색: [S, AA, aAA, aAaA, abaA, abab]
 현재: aAaaA, 탐색: [S, AA, aAA, aAaA, aAaaA]
 현재: aAaAa, 탐색: [S, AA, aAA, aAaA, aAaAa]
 현재: aAab, 탐색: [S, AA, aAA, aAaA, aAab]
@@ -235,7 +234,6 @@ fun main() {
 현재: aaaaAaa, 탐색: [S, Aaa, aaAaa, aaaaAaa]
 현재: aaaaaaAaa, 탐색: [S, Aaa, aaAaa, aaaaAaa, aaaaaaAaa]
 현재: aaaaaaaaAaa, 탐색: [S, Aaa, aaAaa, aaaaAaa, aaaaaaAaa, aaaaaaaaAaa]
-현재: aaaaaabaa, 탐색: [S, Aaa, aaAaa, aaaaAaa, aaaaaaAaa, aaaaaabaa]
 현재: aaaabaa, 탐색: [S, Aaa, aaAaa, aaaaAaa, aaaabaa]
 현재: aabaa, 탐색: [S, Aaa, aaAaa, aabaa]
 현재: baa, 탐색: [S, Aaa, baa]
@@ -267,7 +265,6 @@ fun main() {
 현재: aaaB, 탐색: [S, AB, aAaB, aaaB]
 현재: aaabBb, 탐색: [S, AB, aAaB, aaaB, aaabBb]
 현재: aaabbBbb, 탐색: [S, AB, aAaB, aaaB, aaabBb, aaabbBbb]
-현재: aaabbb, 탐색: [S, AB, aAaB, aaaB, aaabBb, aaabbb]
 현재: aaab, 탐색: [S, AB, aAaB, aaaB, aaab]
 현재: aAabBb, 탐색: [S, AB, aAaB, aAabBb]
 현재: aAab, 탐색: [S, AB, aAaB, aAab]
@@ -310,7 +307,6 @@ fun main() {
 현재: baAab, 탐색: [S, bBb, bAb, baAab]
 현재: baaAaab, 탐색: [S, bBb, bAb, baAab, baaAaab]
 현재: baaaAaaab, 탐색: [S, bBb, bAb, baAab, baaAaab, baaaAaaab]
-현재: baabaab, 탐색: [S, bBb, bAb, baAab, baaAaab, baabaab]
 현재: babab, 탐색: [S, bBb, bAb, baAab, babab]
 현재: bbb, 탐색: [S, bBb, bAb, bbb]
 현재: bab, 탐색: [S, bBb, bab]
@@ -400,7 +396,6 @@ fun main() {
 현재: aabb, 탐색: [S, aS, aSb, aSbb, aAbb, aabb]
 현재: aBbb, 탐색: [S, aS, aSb, aSbb, aBbb]
 현재: abBbb, 탐색: [S, aS, aSb, aSbb, aBbb, abBbb]
-현재: abbb, 탐색: [S, aS, aSb, aSbb, aBbb, abbb]
 현재: aAb, 탐색: [S, aS, aSb, aAb]
 현재: aBb, 탐색: [S, aS, aSb, aBb]
 현재: aA, 탐색: [S, aS, aA]
@@ -579,7 +574,6 @@ fun main() {
 현재: bbabBbabb, 탐색: [S, bSb, bbSbb, bbaSabb, bbabSbabb, bbabBbabb]
 현재: bbaAabb, 탐색: [S, bSb, bbSbb, bbaSabb, bbaAabb]
 현재: bbaaAaabb, 탐색: [S, bSb, bbSbb, bbaSabb, bbaAabb, bbaaAaabb]
-현재: bbaaabb, 탐색: [S, bSb, bbSbb, bbaSabb, bbaAabb, bbaaabb]
 현재: bbaBabb, 탐색: [S, bSb, bbSbb, bbaSabb, bbaBabb]
 현재: bbbSbbb, 탐색: [S, bSb, bbSbb, bbbSbbb]
 현재: bbAbb, 탐색: [S, bSb, bbSbb, bbAbb]
