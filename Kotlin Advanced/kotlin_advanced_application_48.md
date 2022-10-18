@@ -147,11 +147,15 @@ fun main() {
             "E & F = D * D",
             "G = H + I",
             "J = H - I",
-            "H | I = G * J"
+            "H | I = G * J",
+            "L ^ M = O - M", // L + M * (L + M) - M
+            "O = L + N",     // L + M * (L + M)
+            "N = M * K",     // M * (L + M)
+            "K = L + M"
         ),
         listOf(
-            "12 $ 4", "12 & 4", "12 | 4",
-            "16 $ 6", "16 & 6", "16 | 6"
+            "12 $ 4", "12 & 4", "12 | 4", "12 ^ 4",
+            "16 $ 6", "16 & 6", "16 | 6", "16 ^ 6"
         )
     )
     
@@ -162,92 +166,140 @@ fun main() {
 
 ### 실행 결과
 ```kotlin
-1. replaceMap = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+1. replaceMap = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 2. alphabetMap = {A=12, B=4}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {A=12, B=4}
-5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-3. replaceMapCopy = {C=12+4, A$B=16*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=12+4, A$B=16*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {A=12, B=4, C=16}
-5. replaceCount = {C=2, A$B=1, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=2, A$B=1, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-6. replaceMapCopy = {C=12+4, A$B=16*16, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+6. replaceMapCopy = {C=12+4, A$B=16*16, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 7. alphabetMap = {A=12, B=4, C=16}
-8. replaceCount = {C=2, A$B=2, D=0, E&F=0, G=0, J=0, H|I=0}
+8. replaceCount = {C=2, A$B=2, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
 A$B 의 계산 결과 = 256
 
 2. alphabetMap = {E=12, F=4}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {E=12, F=4}
-5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=12-4, E&F=8*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=12-4, E&F=8*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {E=12, F=4, D=8}
-5. replaceCount = {C=0, A$B=0, D=2, E&F=1, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=2, E&F=1, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-6. replaceMapCopy = {C=A+B, A$B=C*C, D=12-4, E&F=8*8, G=H+I, J=H-I, H|I=G*J}
+6. replaceMapCopy = {C=A+B, A$B=C*C, D=12-4, E&F=8*8, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 7. alphabetMap = {E=12, F=4, D=8}
-8. replaceCount = {C=0, A$B=0, D=2, E&F=2, G=0, J=0, H|I=0}
+8. replaceCount = {C=0, A$B=0, D=2, E&F=2, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
 E&F 의 계산 결과 = 64
 
 2. alphabetMap = {H=12, I=4}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {H=12, I=4}
-5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-6. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=12+4, J=12-4, H|I=16*8}
+6. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=12+4, J=12-4, H|I=16*8, L^M=O-M, O=L+N, N=M*K, K=L+M}
 7. alphabetMap = {H=12, I=4, G=16, J=8}
-8. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=2, J=2, H|I=2}
+8. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=2, J=2, H|I=2, L^M=0, O=0, N=0, K=0}
 
 H|I 의 계산 결과 = 128
 
+2. alphabetMap = {L=12, M=4}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
+4. alphabetMap = {L=12, M=4}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-4, O=12+N, N=4*K, K=12+4}
+4. alphabetMap = {L=12, M=4, K=16}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=1, O=1, N=1, K=2}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-4, O=12+N, N=4*16, K=12+4}
+4. alphabetMap = {L=12, M=4, K=16, N=64}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=1, O=1, N=2, K=2}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-4, O=12+64, N=4*16, K=12+4}
+4. alphabetMap = {L=12, M=4, K=16, N=64, O=76}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=1, O=2, N=2, K=2}
+
+6. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=76-4, O=12+64, N=4*16, K=12+4}
+7. alphabetMap = {L=12, M=4, K=16, N=64, O=76}
+8. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=2, O=2, N=2, K=2}
+
+L^M 의 계산 결과 = 72
+
 2. alphabetMap = {A=16, B=6}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {A=16, B=6}
-5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-3. replaceMapCopy = {C=16+6, A$B=22*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=16+6, A$B=22*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {A=16, B=6, C=22}
-5. replaceCount = {C=2, A$B=1, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=2, A$B=1, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-6. replaceMapCopy = {C=16+6, A$B=22*22, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+6. replaceMapCopy = {C=16+6, A$B=22*22, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 7. alphabetMap = {A=16, B=6, C=22}
-8. replaceCount = {C=2, A$B=2, D=0, E&F=0, G=0, J=0, H|I=0}
+8. replaceCount = {C=2, A$B=2, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
 A$B 의 계산 결과 = 484
 
 2. alphabetMap = {E=16, F=6}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {E=16, F=6}
-5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=16-6, E&F=10*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=16-6, E&F=10*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {E=16, F=6, D=10}
-5. replaceCount = {C=0, A$B=0, D=2, E&F=1, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=2, E&F=1, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-6. replaceMapCopy = {C=A+B, A$B=C*C, D=16-6, E&F=10*10, G=H+I, J=H-I, H|I=G*J}
+6. replaceMapCopy = {C=A+B, A$B=C*C, D=16-6, E&F=10*10, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 7. alphabetMap = {E=16, F=6, D=10}
-8. replaceCount = {C=0, A$B=0, D=2, E&F=2, G=0, J=0, H|I=0}
+8. replaceCount = {C=0, A$B=0, D=2, E&F=2, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
 E&F 의 계산 결과 = 100
 
 2. alphabetMap = {H=16, I=6}
 
-3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J}
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
 4. alphabetMap = {H=16, I=6}
-5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
 
-6. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=16+6, J=16-6, H|I=22*10}
+6. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=16+6, J=16-6, H|I=22*10, L^M=O-M, O=L+N, N=M*K, K=L+M}
 7. alphabetMap = {H=16, I=6, G=22, J=10}
-8. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=2, J=2, H|I=2}
+8. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=2, J=2, H|I=2, L^M=0, O=0, N=0, K=0}
 
 H|I 의 계산 결과 = 220
+
+2. alphabetMap = {L=16, M=6}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-M, O=L+N, N=M*K, K=L+M}
+4. alphabetMap = {L=16, M=6}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=0, O=0, N=0, K=0}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-6, O=16+N, N=6*K, K=16+6}
+4. alphabetMap = {L=16, M=6, K=22}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=1, O=1, N=1, K=2}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-6, O=16+N, N=6*22, K=16+6}
+4. alphabetMap = {L=16, M=6, K=22, N=132}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=1, O=1, N=2, K=2}
+
+3. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=O-6, O=16+132, N=6*22, K=16+6}
+4. alphabetMap = {L=16, M=6, K=22, N=132, O=148}
+5. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=1, O=2, N=2, K=2}
+
+6. replaceMapCopy = {C=A+B, A$B=C*C, D=E-F, E&F=D*D, G=H+I, J=H-I, H|I=G*J, L^M=148-6, O=16+132, N=6*22, K=16+6}
+7. alphabetMap = {L=16, M=6, K=22, N=132, O=148}
+8. replaceCount = {C=0, A$B=0, D=0, E&F=0, G=0, J=0, H|I=0, L^M=2, O=2, N=2, K=2}
+
+L^M 의 계산 결과 = 142
 ```
