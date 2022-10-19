@@ -361,7 +361,11 @@ fun main() {
         TwoDates("2022-01.10 18:13:28", "2022-10-19 19:44:12"),
         TwoDates("2022-01-10 18:13:28", "2022-10/19 19:44:12"),
         TwoDates("2022-01-10 18.13.28", "2022-10-19 19:44:12"),
-        TwoDates("2022-01-10 18:13:28", "2022 10 19 19:44:12")
+        TwoDates("2022-01-10 18:13:28", "2022 10 19 19:44:12"),
+        TwoDates("2022 01 10 18:13:28", "2022 10 19 19:44:12"),
+        TwoDates("2022 01 10 18:13:28", "2022-00-19 19:44:12"),
+        TwoDates("2022-01-00 18:13:28", "2022 10 19 19:44:12"),
+        TwoDates("2022-01-00 18:13:28", "2022-00-19 19:44:12")
     )
     
     tempDifDateTimes.forEach {
@@ -672,4 +676,28 @@ fun main() {
 3. date2 possible formats = []
 4. date2 count = 0
 2022-01-10 18:13:28 과 2022 10 19 19:44:12 의 차이 : date2 malformed
+
+1. date1 possible formats = []
+2. date1 count = 0
+3. date2 possible formats = []
+4. date2 count = 0
+2022 01 10 18:13:28 과 2022 10 19 19:44:12 의 차이 : date1 malformed date2 malformed
+
+1. date1 possible formats = []
+2. date1 count = 0
+3. date2 possible formats = []
+4. date2 count = 1
+2022 01 10 18:13:28 과 2022-00-19 19:44:12 의 차이 : date1 malformed date2 impossible
+
+1. date1 possible formats = []
+2. date1 count = 1
+3. date2 possible formats = []
+4. date2 count = 0
+2022-01-00 18:13:28 과 2022 10 19 19:44:12 의 차이 : date1 impossible date2 malformed
+
+1. date1 possible formats = []
+2. date1 count = 1
+3. date2 possible formats = []
+4. date2 count = 1
+2022-01-00 18:13:28 과 2022-00-19 19:44:12 의 차이 : date1 impossible date2 impossible
 ```
