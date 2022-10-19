@@ -22,3 +22,114 @@ data class Info (
     val margins: List<Int> // 간격들
 )
 ```
+
+## 코드 및 실행 결과
+### 코드
+```kotlin
+// 데이터 클래스
+data class Info (
+    val title: String, // 제목
+    val content: List<String>, // 내용
+    val symbol: String, // 기호
+    val borders: List<Char>, // 경계선들
+    val margins: List<Int> // 간격들
+)
+
+// 내용 작성하여 출력하기
+fun printContent(info: Info) {
+    
+    // 가로 길이 구하기 (왼쪽, 오른쪽 경계 제외)
+    val titleLen = info.title.length + 2 * info.symbol.length + 2 * info.margins[1]
+    
+    val maxWidth = Math.max(
+        titleLen,
+        info.content.maxOf { it.length }
+    ) + 2 * info.margins[3]
+    
+    // 맨 윗줄 출력
+    println("${info.borders[4]}${info.borders[0].toString().repeat(maxWidth)}${info.borders[4]}")
+    
+    // 제목까지 출력
+    repeat (info.margins[0]) {
+        println("${info.borders[2]}${" ".repeat(maxWidth)}${info.borders[3]}")
+    }
+    
+    val titleMargin = (maxWidth - titleLen) / 2
+    val isLeft = (maxWidth % 2) != (titleLen % 2)
+    val symbolR = info.symbol.reversed()
+    
+    val titlePart = if (isLeft) {
+        "${info.symbol}${" ".repeat(info.margins[1])}${info.title}${" ".repeat(info.margins[1])}${symbolR} "
+    } else {
+        "${info.symbol}${" ".repeat(info.margins[1])}${info.title}${" ".repeat(info.margins[1])}${symbolR}"
+    }
+    println("${info.borders[2]}${" ".repeat(titleMargin)}${titlePart}${" ".repeat(titleMargin)}${info.borders[3]}")
+    
+    // 내용까지 출력
+    repeat (info.margins[2]) {
+        println("${info.borders[2]}${" ".repeat(maxWidth)}${info.borders[3]}")
+    }
+    
+    info.content.forEach {
+        val lineMargin = (maxWidth - it.length) / 2
+        val isLeft = (maxWidth % 2) != (it.length % 2)
+        
+        val contentPart = if (isLeft) {
+            "${it} "
+        } else {
+            "${it}"
+        }
+        
+        println("${info.borders[2]}${" ".repeat(lineMargin)}${contentPart}${" ".repeat(lineMargin)}${info.borders[3]}")
+    }
+    
+    // 하단 출력
+    repeat (info.margins[4]) {
+        println("${info.borders[2]}${" ".repeat(maxWidth)}${info.borders[3]}")
+    }
+    
+    println("${info.borders[4]}${info.borders[1].toString().repeat(maxWidth)}${info.borders[4]}")
+}
+
+fun main() {
+    
+    // 임시 데이터 클래스
+    val tempInfo = Info (
+        "Kotlin Challenger",
+        listOf(
+            "You are a Kotlin Challenger.",
+            "Currently, you MASTERed 50 Kotlin examples.",
+            "You can be the master of Kotlin.",
+            "Cheer Up!",
+            "",
+            "2022. 10. 19.",
+            "WannaBeSuperteur"
+        ),
+        "-=#",
+        listOf('^', 'V', '<', '>', '#'),
+        listOf(1, 4, 2, 8, 3)
+    )
+    
+    printContent(tempInfo)
+}
+```
+
+### 실행 결과
+```kotlin
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^#
+<                                                           >
+<              -=#    Kotlin Challenger    #=-              >
+<                                                           >
+<                                                           >
+<               You are a Kotlin Challenger.                >
+<        Currently, you MASTERed 50 Kotlin examples.        >
+<             You can be the master of Kotlin.              >
+<                         Cheer Up!                         >
+<                                                           >
+<                       2022. 10. 19.                       >
+<                     WannaBeSuperteur                      >
+<                                                           >
+<                                                           >
+<                                                           >
+#VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV#
+```
