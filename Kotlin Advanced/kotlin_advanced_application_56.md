@@ -254,7 +254,11 @@ fun main() {
         "val x = \"x_is_a_string\"\nvar y = 20\nval z = x + y\ny = \"y_can_be_a_string\"\nz = 987",
         "val aaa = 30\naaa = bbb + 45.12",
         "val aaa = 45\naaa = bbb + \"string_test\" + 34.56",
-        "val aaa = 56\nbbb = aaa + 30"
+        "val aaa = 45\naaa = \"string_test\" + 34.56 + bbb",
+        "val aaa = 45\naaa = \"string_test\" + 34.56",
+        "var aaa = 45\naaa = \"string_test\" + 34.56",
+        "val aaa = 56\nbbb = aaa + 30",
+        "val aaa = 56\nval bbb = aaa + 30"
     )
     
     // 각 코드에 대해 오류 확인
@@ -446,6 +450,34 @@ at line 2 : bbb 변수가 존재하지 않습니다.
 Error of "val aaa = 45; aaa = bbb + "string_test" + 34.56" :
 at line 2 : bbb 변수가 존재하지 않습니다.
 
+1. [val Int aaa=45]
+2. Int [Int]
+
+1. [val Int aaa=45]
+2. String [String, Double, String]
+
+Error of "val aaa = 45; aaa = "string_test" + 34.56 + bbb" :
+at line 2 : bbb 변수가 존재하지 않습니다.
+at line 2 : val로 선언된 aaa에 재할당할 수 없습니다.
+
+1. [val Int aaa=45]
+2. Int [Int]
+
+1. [val Int aaa=45]
+2. String [String, Double]
+
+Error of "val aaa = 45; aaa = "string_test" + 34.56" :
+at line 2 : val로 선언된 aaa에 재할당할 수 없습니다.
+
+1. [var Int aaa=45]
+2. Int [Int]
+
+1. [var Int aaa=45]
+2. String [String, Double]
+
+Error of "var aaa = 45; aaa = "string_test" + 34.56" :
+at line 2 : aaa의 현재 자료형은 Int으로, 새로운 자료형 String으로 변환할 수 없습니다.
+
 1. [val Int aaa=56]
 2. Int [Int]
 
@@ -454,4 +486,12 @@ at line 2 : bbb 변수가 존재하지 않습니다.
 
 Error of "val aaa = 56; bbb = aaa + 30" :
 at line 2 : bbb 변수가 존재하지 않습니다.
+
+1. [val Int aaa=56]
+2. Int [Int]
+
+1. [val Int aaa=56, val Int bbb=86]
+2. Int [Int, Int]
+
+Error of "val aaa = 56; val bbb = aaa + 30" :
 ```
