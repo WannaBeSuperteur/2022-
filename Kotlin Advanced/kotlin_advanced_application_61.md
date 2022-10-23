@@ -24,8 +24,24 @@ for entire :
 
 단, 초기 위치는 제외하고, 마지막 random walk 이후의 위치는 포함한다.
 
+또한, 제한된 구간 밖으로 벗어나는 것을 허용할지를 결정하는 ```option```이라는 변수를 이용한다. ```option```이 ```true```인 경우, 제한된 구간 밖으로 벗어난 랜덤워크 횟수의 비율도 같이 출력한다. 예를 들어 다음과 같다.
+
+```kotlin
+for each :
+2 4 9 4 2 / 0, 0/10 = 0.0%
+2 5 9 6 1 / 0, 2/20 = 10.0%
+1 4 9 6 5 / 0, 4/30 = 13.3%
+(entire out of range : 6/60 = 10.0%)
+
+for entire :
+0 1 3 1 0
+1 3 6 4 0
+1 4 6 9 5 / 1
+(2, 1)
+```
+
 ### 함수
-```doRandomWalk(a, walks, relativeMax)```
+```doRandomWalk(a, walks, relativeMax, option)```
 
 ## 코드 및 실행 결과
 ### 코드
