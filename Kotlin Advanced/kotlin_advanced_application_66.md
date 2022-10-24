@@ -18,7 +18,7 @@ A(0, 3) B(0, 0), C(-5, -10), D(-5, -7), E(-8, -10), G(-2, -4), H(-1, -2)
 단, 위쪽부터 읽어 나갈 때 특정 문장에서는 그 아래쪽에 있는 문장을 이용해야 할 수 있다.
 
 ## 코드 및 실행 결과
-### 코드
+### 코드 1
 ```kotlin
 import kotlin.math.*
 
@@ -238,7 +238,7 @@ fun main() {
 }
 ```
 
-### 실행 결과
+### 실행 결과 1
 ```kotlin
  **** ROUND 0 ****
 1. current point map = {B=[0, 0], A=null, C=null, D=null, E=null, G=null, O=null, H=null, I=null, J=null, K=null, L=null}
@@ -297,4 +297,91 @@ fun main() {
 
 **** FINAL ****
 A(0, 3) B(0, 0) C(-5, -10) D(-5, -7) E(-8, -10) G(-2, -4) H(-1, -2) I(4, 6) J(16, 22) K(8, 4) L(18, 12) O(8, -2)
+```
+
+### 코드 2
+```kotlin
+fun main() {
+    val sentences = listOf(
+        "A는 원점에 있다.",
+        "B는 A로부터 오른쪽 16칸 지점에 있다.",
+        "C는 B로부터 위쪽 16칸 지점에 있다.",
+        "D는 C로부터 왼쪽 16칸 지점에 있다.",
+        "E는 A와 B 사이의 정중앙에 있다.",
+        "F는 B와 C 사이의 정중앙에 있다.",
+        "G는 C와 D 사이의 정중앙에 있다.",
+        "H는 D와 A 사이의 정중앙에 있다.",
+        "I는 E와 F 사이의 정중앙에 있다.",
+        "J는 F와 G 사이의 정중앙에 있다.",
+        "K는 G와 H 사이의 정중앙에 있다.",
+        "L는 H와 E 사이의 정중앙에 있다."
+    )
+    
+    // 점들의 좌표 출력하기
+    printPoints(sentences)
+}
+```
+
+### 실행 결과 2
+```kotlin
+ **** ROUND 0 ****
+1. current point map = {A=[0, 0], B=null, C=null, D=null, E=null, F=null, G=null, H=null, I=null, J=null, K=null, L=null}
+
+2. 문장 = B는 A로부터 오른쪽 16칸 지점에 있다., 알파벳 = [B, A]
+4. to = B, from = A, x = 16, y = 0
+7. updated point map = {A=[0, 0], B=[16, 0], C=null, D=null, E=null, F=null, G=null, H=null, I=null, J=null, K=null, L=null}
+
+2. 문장 = C는 B로부터 위쪽 16칸 지점에 있다., 알파벳 = [C, B]
+4. to = C, from = B, x = 0, y = 16
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=null, E=null, F=null, G=null, H=null, I=null, J=null, K=null, L=null}
+
+2. 문장 = D는 C로부터 왼쪽 16칸 지점에 있다., 알파벳 = [D, C]
+4. to = D, from = C, x = -16, y = 0
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=null, F=null, G=null, H=null, I=null, J=null, K=null, L=null}
+
+2. 문장 = E는 A와 B 사이의 정중앙에 있다., 알파벳 = [E, A, B]
+5. middle = E, first = A, last = B
+6. middle = null, first = [0, 0], last = [16, 0]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=null, G=null, H=null, I=null, J=null, K=null, L=null}
+
+2. 문장 = F는 B와 C 사이의 정중앙에 있다., 알파벳 = [F, B, C]
+5. middle = F, first = B, last = C
+6. middle = null, first = [16, 0], last = [16, 16]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=null, H=null, I=null, J=null, K=null, L=null}
+
+2. 문장 = G는 C와 D 사이의 정중앙에 있다., 알파벳 = [G, C, D]
+5. middle = G, first = C, last = D
+6. middle = null, first = [16, 16], last = [0, 16]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=[8, 16], H=null, I=null, J=null, K=null, L=null}
+
+2. 문장 = H는 D와 A 사이의 정중앙에 있다., 알파벳 = [H, D, A]
+5. middle = H, first = D, last = A
+6. middle = null, first = [0, 16], last = [0, 0]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=[8, 16], H=[0, 8], I=null, J=null, K=null, L=null}
+
+2. 문장 = I는 E와 F 사이의 정중앙에 있다., 알파벳 = [I, E, F]
+5. middle = I, first = E, last = F
+6. middle = null, first = [8, 0], last = [16, 8]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=[8, 16], H=[0, 8], I=[12, 4], J=null, K=null, L=null}
+
+2. 문장 = J는 F와 G 사이의 정중앙에 있다., 알파벳 = [J, F, G]
+5. middle = J, first = F, last = G
+6. middle = null, first = [16, 8], last = [8, 16]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=[8, 16], H=[0, 8], I=[12, 4], J=[12, 12], K=null, L=null}
+
+2. 문장 = K는 G와 H 사이의 정중앙에 있다., 알파벳 = [K, G, H]
+5. middle = K, first = G, last = H
+6. middle = null, first = [8, 16], last = [0, 8]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=[8, 16], H=[0, 8], I=[12, 4], J=[12, 12], K=[4, 12], L=null}
+
+2. 문장 = L는 H와 E 사이의 정중앙에 있다., 알파벳 = [L, H, E]
+5. middle = L, first = H, last = E
+6. middle = null, first = [0, 8], last = [8, 0]
+7. updated point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=[8, 16], H=[0, 8], I=[12, 4], J=[12, 12], K=[4, 12], L=[4, 4]}
+
+ **** ROUND 1 ****
+1. current point map = {A=[0, 0], B=[16, 0], C=[16, 16], D=[0, 16], E=[8, 0], F=[16, 8], G=[8, 16], H=[0, 8], I=[12, 4], J=[12, 12], K=[4, 12], L=[4, 4]}
+
+**** FINAL ****
+A(0, 0) B(16, 0) C(16, 16) D(0, 16) E(8, 0) F(16, 8) G(8, 16) H(0, 8) I(12, 4) J(12, 12) K(4, 12) L(4, 4)
 ```
