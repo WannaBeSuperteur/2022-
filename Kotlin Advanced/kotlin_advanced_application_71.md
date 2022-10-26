@@ -11,5 +11,5 @@ B의 이웃 정점은 몇 개인가?
 정점 C와 D 사이의 거리는?
 ```
 
-* 트리 자료구조를 구성하는 함수는 ```createTree(sequences: List<String>)```이다.
+* 트리 자료구조를 구성하는 함수는 ```createTree(sentences: List<String>)```이다.
 * 완성된 트리에서 질문에 답하는 함수는 ```findAnswer(questions: List<String>)```이다.
