@@ -91,23 +91,29 @@ fun findCases(n: Int) {
     println("\n3. max = ${productMax}, min = ${productMin}")
     
     // 최댓값을 productMax보다 작게 해서 마지막 구간에 들어가게 하기 위해 productMax + 1을 사용
-    val ranges = (0..10).map {
-        productMin + ((productMax + 1) - productMin) * it / 10
+    val rangeCnt = 10
+    
+    val ranges = (0..rangeCnt).map {
+        productMin + ((productMax + 1) - productMin) * it / rangeCnt
     }
     println("4. range = ${ranges}")
     
-    val valueCount = (0..9).map { i ->
+    val valueCount = (0 until rangeCnt).map { i ->
         resultProduct.count { it >= ranges[i] && it < ranges[i + 1] }
     }
     val valueCountMax = valueCount.max()
     println("5. value count = ${valueCount}\n6. value count max = ${valueCountMax}\n")
     
     // 각 구간별로 개수, 비율 및 기호 출력
-    valueCount.forEach {
-        val percent = round(it * 1000 / valueCountMax.toDouble()) / 10
+    valueCount.forEachIndexed { idx, it ->
+        val percent = round(it * 10000 / valueCount.sum().toDouble()) / 100
         val markCount = it * 20 / valueCountMax
         
-        println("개수 : ${String.format("%4d", it)}, 비율 : ${String.format("%5.1f", percent)}% / ${"#".repeat(markCount)}")
+        val startStr = String.format("%8d", ranges[idx])
+        val endStr = String.format("%8d", ranges[idx + 1] - 1)
+        val countStr = String.format("%4d", it)
+        
+        println("구간 ${startStr} ~ ${endStr}, 개수 : ${countStr}, 비율 : ${String.format("%6.2f", percent)}% / ${"#".repeat(markCount)}")
     }
 }
 
@@ -253,14 +259,14 @@ fun main() {
 5. value count = [29, 13, 15, 7, 7, 3, 12, 5, 3, 9]
 6. value count max = 29
 
-개수 :   29, 비율 : 100.0% / ####################
-개수 :   13, 비율 :  44.8% / ########
-개수 :   15, 비율 :  51.7% / ##########
-개수 :    7, 비율 :  24.1% / ####
-개수 :    7, 비율 :  24.1% / ####
-개수 :    3, 비율 :  10.3% / ##
-개수 :   12, 비율 :  41.4% / ########
-개수 :    5, 비율 :  17.2% / ###
-개수 :    3, 비율 :  10.3% / ##
-개수 :    9, 비율 :  31.0% / ######
+구간     1158 ~    29715, 개수 :   29, 비율 :  28.16% / ####################
+구간    29716 ~    58273, 개수 :   13, 비율 :  12.62% / ########
+구간    58274 ~    86831, 개수 :   15, 비율 :  14.56% / ##########
+구간    86832 ~   115390, 개수 :    7, 비율 :   6.80% / ####
+구간   115391 ~   143948, 개수 :    7, 비율 :   6.80% / ####
+구간   143949 ~   172506, 개수 :    3, 비율 :   2.91% / ##
+구간   172507 ~   201065, 개수 :   12, 비율 :  11.65% / ########
+구간   201066 ~   229623, 개수 :    5, 비율 :   4.85% / ###
+구간   229624 ~   258181, 개수 :    3, 비율 :   2.91% / ##
+구간   258182 ~   286740, 개수 :    9, 비율 :   8.74% / ######
 ```
