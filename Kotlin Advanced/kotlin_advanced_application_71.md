@@ -12,4 +12,4 @@ B의 이웃 정점은 몇 개인가?
 ```
 
 * 트리 자료구조를 구성하는 함수는 ```createTree(sentences: List<String>)```이다.
-* 완성된 트리에서 질문에 답하는 함수는 ```findAnswer(questions: List<String>)```이다.
+* 완성된 트리에서 질문에 답하는 함수는 ```findAnswer(questions: List<String>, tree: Tree)```이다.
