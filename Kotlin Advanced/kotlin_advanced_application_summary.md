@@ -84,10 +84,11 @@ val charEndIdx = (0 until string.length).filter {
   * ```mapping.toList().sumOf { func(it.first, it.second) }``` : 함수를 이용한 합계
 
 ### ```groupBy``` 관련
-* 각 그룹별 통계 값 구하기 **(22, 37)**
+* 각 그룹별 통계 값 구하기 **(22, 37, 67)**
   * ```list.groupBy { it.??? }.map { computeValue(it.key, it.value) }```
   * ```list.groupBy { it.??? }.map { it.value.size }``` : 각 값의 빈도수
   * ```list.groupBy { it.??? }.map { listOf(it.key, it.value.size) }``` : 각 값과 해당 값의 빈도수
+  * ```list.groupBy { it.??? }.filter { ... }.map { listOf(it.key, it.value.size) }``` : 각 값과 해당 값의 빈도수 (필터 적용)
 * 각 그룹별 정보를 배열에 저장하기 **(23)**
   * ```list.groupBy { it.??? }.toList()``` : ```[[it.???, (list에서 해당하는 원소들의 배열)], ...]``` 형태의 값
     * ```it.???```는 ```.first```로, ```list에서 해당하는 원소들의 배열```은 ```.second```로 참조 가능
@@ -105,8 +106,9 @@ val charEndIdx = (0 until string.length).filter {
 * 크기가 N인 편집 가능한 배열 만들기 **(25, 33)**
   * ```(0..N-1).map { defaultValue }.toMutableList()``` 또는 ```(0 until N).map { defaultValue }.toMutableList()```
   * ```(0..N-1).map { it }.toMutableList()``` : 편집 가능한 ```[0, 1, ..., N-1]```의 배열
-* 배열의 A번째부터 (B-1)번째까지의 항목 구하기 **(25, 30)**
-  * ```list.take(B).takeLast(B-A)``` 또는 ```list.subList(A, B)```
+* 배열의 A번째부터 (B-1)번째까지의 항목 구하기 **(25, 30, 65)**
+  * ```list.take(B).takeLast(B-A)```, ```list.subList(A, B)``` 또는 ```list.slice(A .. B-1)```
+    * ```list.slice(A .. B-1)``` 방식의 경우, ```A .. B-1``` 대신 리스트를 넣어서 ```list```에서 해당 리스트의 각 값에 해당하는 인덱스가 가리키는 값들로 이루어진 새로운 배열을 만들 수 있다.
 * 배열의 argmax (가장 큰 값의 index) 구하기 **(38)**
   * ```val argmax = (0 until N).fold ( 0 ) { acc, e -> if (list[e] > list[acc]) { e } else { acc } }``` : 가장 큰 값의 index
   * ```val argmin = (0 until N).fold ( 0 ) { acc, e -> if (list[e] < list[acc]) { e } else { acc } }``` : 가장 작은 값의 index
@@ -136,9 +138,13 @@ val sortResult = list.sortedWith (
 * 반올림 **(34)**
   * ```import kotlin.math.*; round(value * 10.0) / 10.0``` : 소수점 아래 1번째 자리까지 반올림
   * ```import kotlin.math.*; round(value * 1000.0) / 1000.0``` : 소수점 아래 3번째 자리까지 반올림
+* 퍼센트 반올림 **(61)**
+  * ```val percent = Math.round(value * 1000.0) / 10.0``` : 소수점 이하 1번째 자리까지 반올림 (예: ```12.7%```)
 
 ## 기타
 * 문자의 아스키 코드 구하기 **(47)**
   * ```'a'.code```
 * ```fold()```를 사용할 때 인덱스도 같이 사용하기 **(56)**
   * ```list.foldIndexed ( ... ) { idx, acc, e -> ... }```
+* ```forEach```, ```forEachIndexed``` 문에서 다른 언어의 ```continue``` 적용하기 **(62, 65)**
+  * ```return@forEach``` 또는 ```return@forEachIndexed```
