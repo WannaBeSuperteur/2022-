@@ -12,16 +12,6 @@
   * ```list.joinToString(separator=" ")``` : 공백을 두고 연결 (```Kotlin Java Python```)
 * 배열에 있는 문자열을 연결하기 **(42)**
   * ```(0 until N).fold("") { acc, e -> "${acc}${func(arr[e])}" }``` : 배열 ```arr```에 있는 각 문자열에 대해 함수를 적용하여 연결하는 경우
-* 숫자가 연속되는 부분이 1곳인지 구하기 **(44)**
-```kotlin
-val numStartIdx = (0 until string.length - 1).filter {
-    !string[it].isDigit() && string[it + 1].isDigit()
-}
-val numEndIdx = (0 until query.length - 1).filter {
-    string[it].isDigit() && !string[it + 1].isDigit()
-}
-numStartIdx.size > 0 && numEndIdx.size > 0 && numStartIdx.max() > numEndIdx.min()
-```
 * 특정 문자열 직전의 숫자 값 구하기 **(44)**
   * ```string.substringBefore("specific_string").takeLastWhile { it.isDigit() }```
 * 첫 번째 숫자 값의 인덱스 구하기 **(44)**
@@ -34,11 +24,40 @@ val numList = nums.trim().split(" ")
 ```
 * 문자열 뒤집기 **(50)**
   * ```string.reversed()```
+* 문자열에서 첫 대문자 직전까지의 소문자들로 된 부문자열 구하기 **(60)**
+  * ```string.takeWhile { !it.isUpperCase() }```
+
+### 숫자, 문자의 연속되는 부분 찾기
+* 숫자가 연속되는 부분이 1곳인지 구하기 **(44)**
+```kotlin
+val numStartIdx = (0 until string.length - 1).filter {
+    !string[it].isDigit() && string[it + 1].isDigit()
+}
+val numEndIdx = (0 until string.length - 1).filter {
+    string[it].isDigit() && !string[it + 1].isDigit()
+}
+numStartIdx.size > 0 && numEndIdx.size > 0 && numStartIdx.max() > numEndIdx.min()
+```
+* 특정 문자가 나타나기 시작하는 지점과 끝나는 지점 구하기 **(51)**
+```kotlin
+val charStartIdx = (0 until string.length).filter {
+    val stringWithSpace = " ${string}"
+    stringWithSpace[it] != char && stringWithSpace[it + 1] == char
+}
+        
+val charEndIdx = (0 until string.length).filter {
+    val stringWithSpace = "${string} "
+    stringWithSpace[it] == char && stringWithSpace[it + 1] != char
+}
+```
 
 ## 자료형 변환
 * 배열의 모든 원소의 자료형 바꾸기 **(27)**
   * ```list.map { it.toDataType() }``` : 수정 불가 배열
   * ```list.map { it.toDataType() }.toMutableList()``` : 수정 가능 배열
+* 특정 자료형으로 변환할 수 없으면 null을 반환 **(56)**
+  * ```value.toIntOrNull()``` : Int 자료형으로 바꿀 수 없으면 null을 반환
+  * ```value.toDoubleOrNull()``` : Double 자료형으로 바꿀 수 없으면 null을 반환
 
 ## Regex (정규 표현식)
 * 숫자 제거 **(27)**
@@ -121,3 +140,5 @@ val sortResult = list.sortedWith (
 ## 기타
 * 문자의 아스키 코드 구하기 **(47)**
   * ```'a'.code```
+* ```fold()```를 사용할 때 인덱스도 같이 사용하기 **(56)**
+  * ```list.foldIndexed ( ... ) { idx, acc, e -> ... }```
