@@ -75,13 +75,21 @@ val charEndIdx = (0 until string.length).filter {
 ### 집합 및 ```map```
 * 특정 속성의 집합 **(21)**
   * ```instance.map { it.property }.toSet()```
-* map의 원소를 정렬하기 **(34)**
+* map의 원소를 정렬하기 **(34, 74)**
   * ```mapping.toList().sortedBy { ... }``` : 오름차순 정렬
   * ```mapping.toList().sortedByDescending { ... }``` : 내림차순 정렬
+  * ```mapping.toList().sortedByDescending { it.second }.take(N)``` : mapping의 value로 내림차순 정렬 후 N개의 원소 추출
+  * ```mapping.toList().sortedByDescending { func(it.second) }.take(N)``` : mapping의 value에 함수를 적용한 값으로 내림차순 정렬 후 N개의 원소 추출
 * map의 원소들의 합계 구하기 **(45)**
   * ```mapping.toList().sumOf { it.first }``` : key의 합계
   * ```mapping.toList().sumOf { it.second }``` : value의 합계
   * ```mapping.toList().sumOf { func(it.first, it.second) }``` : 함수를 이용한 합계
+* 두 배열의 각 원소를 mapping한 map 만들기 **(75)**
+```kotlin
+(0 until n).fold ( mapOf<DataType1, DataType2>() ) { acc, e ->
+     acc + mapOf(list1[e] to list2[e])
+}
+```
 
 ### ```groupBy``` 관련
 * 각 그룹별 통계 값 구하기 **(22, 37, 67)**
@@ -120,6 +128,10 @@ val charEndIdx = (0 until string.length).filter {
   * ```(0 until N).map { a -> (0 until M).sumOf { b -> ... } }```
 * 배열의 모든 항목 삭제 **(43)**
   * ```list.clear()```
+* 배열의 각 원소에 대해 역순으로 실행하기 **(68)**
+  * ```list.fold ( ... ) { acc, e -> e + ... + acc }```
+* ```[i, a0, b0, a1, b1, ...]```을 ```[i, [a0, b0], [a1, b1], ...]``` 형태로 만들기 **(70)**
+  * ```list.subList(1, list.size).chunked(2)```
 
 ## 여러 기준에 의한 정렬하기
 * 여러 기준에 의한 정렬하기 **(47)**
@@ -140,6 +152,8 @@ val sortResult = list.sortedWith (
   * ```import kotlin.math.*; round(value * 1000.0) / 1000.0``` : 소수점 아래 3번째 자리까지 반올림
 * 퍼센트 반올림 **(61)**
   * ```val percent = Math.round(value * 1000.0) / 10.0``` : 소수점 이하 1번째 자리까지 반올림 (예: ```12.7%```)
+* 제곱 **(75)**
+  * ```(a.toDouble()).pow(b.toDouble()).toInt()``` : ```a```를 ```b```제곱한 값 구하기
 
 ## 기타
 * 문자의 아스키 코드 구하기 **(47)**
