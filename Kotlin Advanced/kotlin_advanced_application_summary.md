@@ -111,7 +111,7 @@ val charEndIdx = (0 until string.length).filter {
   * ```list.subList(A, B).sum()``` : 배열의 A번째부터 (B-1)번째까지의 값들의 합
 * 배열에서 TOP N 구하기 **(22)**
   * ```list.sorted().take(N)``` 또는 ```list.sortedDescending().take(N)```
-* 크기가 N인 편집 가능한 배열 만들기 **(25, 33)**
+* 크기가 N인 편집 가능한 배열 만들기 **(25, 33, 36)**
   * ```(0..N-1).map { defaultValue }.toMutableList()``` 또는 ```(0 until N).map { defaultValue }.toMutableList()```
   * ```(0..N-1).map { it }.toMutableList()``` : 편집 가능한 ```[0, 1, ..., N-1]```의 배열
 * 배열의 A번째부터 (B-1)번째까지의 항목 구하기 **(25, 30, 65)**
@@ -156,6 +156,12 @@ val sortResult = list.sortedWith (
   * ```(a.toDouble()).pow(b.toDouble()).toInt()``` : ```a```를 ```b```제곱한 값 구하기
 
 ## 기타
+* fold를 이용하여 주어진 항목의 클래스 찾기 (argmax) **(38)**
+```kotlin
+val finalClass = (0 until N).fold ( 0 ) { acc, e ->
+    if (scoreClass[e] > scoreClass[acc]) { e } else { acc } // argmin일 때는 (scoreClass[e] < scoreClass[acc])
+}
+```
 * 문자의 아스키 코드 구하기 **(47)**
   * ```'a'.code```
 * ```fold()```를 사용할 때 인덱스도 같이 사용하기 **(56)**
