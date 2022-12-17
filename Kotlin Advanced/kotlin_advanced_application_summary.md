@@ -22,6 +22,8 @@ val re = Regex("[^0-9]+")
 val nums = re.replace(string, " ")
 val numList = nums.trim().split(" ")
 ```
+* 첫 번째로 일치하는 것을 다른 것으로 바꾸기 **(48)**
+  * ```string.replaceFirst(toFind, newString)``` : ```string```에서 첫 번째로 일치하는 ```toFind```를 찾아서 ```newString```으로 변경
 * 문자열 뒤집기 **(50)**
   * ```string.reversed()```
 * 문자열에서 첫 대문자 직전까지의 소문자들로 된 부문자열 구하기 **(60)**
