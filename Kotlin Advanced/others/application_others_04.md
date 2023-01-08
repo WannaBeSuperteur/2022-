@@ -57,7 +57,58 @@ fun main() {
 }
 ```
 
-## 기본 코드 실행 결과
+## reflection 이용 코드
+```kotlin
+data class Number (
+    var value: Int = 0
+)
+
+fun getInfo(n: Int, isEvenOrOdd: String, isSum: Boolean): Int {
+    val evenOddMod = mapOf("even" to listOf(0), "odd" to listOf(1), "all" to listOf(0, 1))
+    
+    // 함수를 이용, "::함수"를 적용하여 필터링
+    fun isWhatWeFind(divide: Int) = n % divide == 0 && (divide % 2 in (evenOddMod[isEvenOrOdd]!! as List<Int>))
+
+    if (isSum) {
+        return (1..n).filter(::isWhatWeFind).sum()
+    } else {
+        return (1..n).count(::isWhatWeFind)
+    }
+}
+
+fun LCM(a: Int, b: Int): Int {
+    return a * b / GCD(a, b)
+}
+
+fun GCD(a: Int, b: Int): Int {
+    if (b == 0) { return a } else { return GCD(b, a % b) }
+}
+
+fun main() {
+    val range = (1200..1320 step 2)
+    val oddCounts = range.map { getInfo(it, "odd", false) }
+    val oddSums = range.map { getInfo(it, "odd", true) }
+    val evenCounts = range.map { getInfo(it, "even", false) }
+    val evenSums = range.map { getInfo(it, "even", true) }
+    
+    print("\n")
+    range.forEachIndexed { idx, it ->
+        println("1. 수: $it 홀수 개수: ${oddCounts[idx]} 홀수 합: ${oddSums[idx]} 짝수 개수: ${evenCounts[idx]} 짝수 합: ${evenSums[idx]}")
+    }
+    
+    print("\n")
+    oddCounts.zip(evenSums) { oc, es ->
+        println("2. 홀수 개수: $oc, 짝수 합: $es, 최소공배수: ${LCM(oc, es)}")
+    }
+    
+    print("\n")
+    evenCounts.zip(evenSums) { ec, os ->
+        println("3. 짝수 개수: $ec, 홀수 합: $os, 최대공약수: ${GCD(ec, os)}")
+    }
+}
+```
+
+## 기본 코드 및 reflection 이용 코드 실행 결과
 ```kotlin
 
 1. 수: 1200 홀수 개수: 6 홀수 합: 124 짝수 개수: 24 짝수 합: 3720
