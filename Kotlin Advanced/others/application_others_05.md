@@ -73,6 +73,31 @@ fun main() {
 }
 ```
 
+## zip() 이용 코드
+```kotlin
+...
+
+if (n in chains.keys) {
+    // println(n)
+    val existingChainSize = chains.get(n)!!
+    val indices = (0 until sequence.size).toList()
+                
+    sequence.zip(indices) { num, idx ->
+        val chainSize = sequence.size - idx
+        val totalChainSize = chainSize + (existingChainSize - 1)
+                        
+        if (existingChainSize == -1 || totalChainSize > limit) {
+            chains.put(num, -1)
+        } else {
+            chains.put(num, totalChainSize)
+        }
+    }
+    break
+}
+
+...
+```
+
 ## 실행 결과
 ```kotlin
 002 (02) : 2 -> 1
